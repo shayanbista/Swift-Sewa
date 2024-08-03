@@ -1,57 +1,5 @@
 
-
 <body class="">
-  <nav class="nav-section h-[10vh] bg-white shadow-md py-2 md:py-4 md:px-10 z-10">
-      <div
-        class="nav-container h-full mx-auto sm:px-10 lg:px-1  flex flex-row justify-between items-center"
-      >
-        <!-- Logo -->
-        <div class="logo flex items-center">
-          <span class="text-orange-500 font-bold text-2xl">Swift</span
-          ><span class="text-blue-600 font-semibold text-2xl">Sewa</span>
-        </div>
-
-        <!-- Location Selector and Profile Icon -->
-        <div class="flex items-center space-x-4 ">
-      
-           <button
-              type="button"
-              class="flex items-center md:px-4 py-5 dropdown-toggle"
-              id="user-button" onclick="toggleDropdown()"
-              
-            >
-            <figure class="  w-8 h-8 ">
-              <img
-                class=" rounded-full w-full h-full object-contain"
-                src="/images/user/img-02.jpg"
-                alt="Header Avatar"
-              />
-            </figure>
-              <span class="hidden fw-medium xl:block dark:text-gray-50 ml-4"
-                >Bijen</span
-              >
-            </button>
-        </div>
-      </div>
-
-      <div
-        class="dropdown-menu lg:w-[10%] absolute right-0 mt-4 bg-white rounded-md shadow-lg z-20 hidden"
-      ><hr>
-          <a
-          href="/#/profile"
-          class="block text-center  text-orange-500 px-4 py-2 m-2 rounded hover:bg-cyan-200"
-        >
-          View Profile
-        </a>
-
-         <a
-          href="/#/"
-          class="block text-center lg: text-orange-500 px-4 py-2 m-2 rounded hover:bg-cyan-200"
-        >
-         logout
-        </a>
-      </div>
-    </nav>
   <div class="text-white relative">
     <div class="bg-[url('/public/images/supplier/landingPage.jpg')] w-full bg-cover bg-center h-[45rem] bg-fixed relative">
       <div class="text-center bg-black bg-opacity-80 h-full flex items-center justify-center">
@@ -64,9 +12,10 @@
           </p>
           <Link to="product" smooth={true} duration={1000}>
             <a href="#/supplier/registration/">
-            <button class="uppercase p-3 px-9 border border-white mt-6 text-sm hover:bg-white hover:text-black duration-300">Register</button>
+              <button class="uppercase p-3 px-9 border border-white mt-6 text-sm hover:bg-white hover:text-black duration-300">
+                Register
+              </button>
             </a>
-            
           </Link>
 
           <ul class="flex flex-col lg:flex-row lg:text-2xl font-semibold my-16  justify-evenly space-y-4 lg:space-y-0">
@@ -79,17 +28,58 @@
       </div>
     </div>
   
-    <div class="text-black bg-white container my-16 lg:px-32">
+    <div class="text-black bg-white container my-32 lg:px-32">
       <div class="lg:flex gap-[10rem]">
         <div class="md:w-full lg:w-[60%]">
           <h1 class="text-6xl font-semibold ">Companies working with Us</h1>
-          <p class="py-8">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Nullam euismod, ipsum a dictum pretium, lacus risus tempor nisi, nec fermentum ipsum nisi sit amet justo. Integer euismod quam sed urna tincidunt, id interdum quam placerat.</p>
-         <a href="#/supplier/companies/">
-          <button class="rounded-full p-4 px-8 bg-yellow-400 hover:bg-black hover:text-white">View Yours</button>
-          </a>
+         <p class="py-8">
+          Explore the companies you are partnered with. View detailed profiles and discover the services and products offered by your network of collaborators. Stay connected and make the most of your business relationships.
+        </p>
+        <a href="#/supplier/companies/">
+          <button class="rounded-full p-4 px-8 bg-yellow-400 hover:bg-black hover:text-white">View</button>
+        </a>
         </div>
         <div class="mt-4 lg:mt-0">
-          <img src="/public/images/supplier/Companies.avif" class="w-full md:w-[50rem] lg:w-[45rem] rounded-sm" />
+          <img src="../../../public/images/supplier/Companies.avif" class="w-full md:w-[50rem] lg:w-[45rem] rounded-sm" />
+        </div>
+      </div>
+    </div>
+
+
+    <div class="text-black bg-white container my-32 lg:px-32">
+      <div class="lg:flex gap-[10rem]">
+        <div class="mt-4 lg:mt-0">
+          <img src="../../../public/images/supplier/Bookings.png" class="w-[80rem]  rounded-sm" />
+        </div>
+        <div class="md:w-full lg:w-[40%]">
+          <h1 class="text-4xl font-bold ">Your Bookings
+          </h1>
+          <h2 class="pt-1 text-base">View and Manage Your Service Appointments with Ease
+          </h2>
+          <div class="flex  mt-[4rem] gap-6">
+
+            <i class="fa-solid fa-magnifying-glass text-[#EB6C59]  rounded-full bg-[#FEF4F3] sm:w-[4.5rem] sm:h-[4.5rem] text-[1.25rem] p-6 "></i>
+            <div>
+                <h1 class="font-semibold pb-2"> Management</h1>
+                <p class="">Keep track of all your scheduled services in one place.</p>
+            </div></div>
+            
+            <div class="flex  mt-[2rem] gap-6">
+            
+            <i class="fa-solid fa-list-check  text-[#EB6C59] rounded-full bg-[#FEF4F3] sm:w-[4.5rem] sm:h-[4.5rem] text-[1.25rem] p-6  "> </i>  
+            <div>
+                <h1 class="font-semibold pb-2">Quick Updates</h1>
+                <p class="">Review upcoming bookings, make changes as neccesaary as soon as possible</p>
+            </div>
+          </div>
+            
+            <div class="flex  mt-[2rem] gap-6">
+              <i class="fa-solid fa-sitemap text-[#EB6C59] rounded-full bg-[#FEF4F3]  sm:w-[4.5rem] sm:h-[4.5rem] text-[1.25rem] p-6 "></i>
+            <div>
+                <h1 class="font-semibold pb-2">Organized</h1>
+                <p class="">stay organized with our user-friendly interface designed for your convenience.  </p>
+            </div>
+            </div> <a href="#/supplier/bookings/"><button class="rounded-full p-4 px-8 mt-12  text-white bg-yellow-400 hover:bg-black hover:text-white">View</button></a>
         </div>
       </div>
     </div>

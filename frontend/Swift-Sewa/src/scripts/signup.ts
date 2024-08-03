@@ -286,8 +286,6 @@ export class SignupActions {
           setTimeout(() => {
             window.location.href = "/#/login/";
           }, 1000);
-
-          // window.location.href = "/login/";
         } catch (err) {
           if (axios.isAxiosError(err)) {
             displayResponseErrors(`${err.response!.data.message}`);
@@ -302,34 +300,7 @@ export class SignupActions {
         }
         return true;
       }
-      //   const response = await axios.post("http://localhost:8000/users/", {
-      //     email,
-      //     password,
-      //     address,
-      //     name: username,
-      //     phoneNumber,
-      //     role,
-      //   });
-
-      //   console.log("response", response);
-      //   if (response.status === 201) {
-      //     login();
-      //   }
-      // } catch (err) {
-      //   if (axios.isAxiosError(err)) {
-      //     displayResponseErrors(`${err.response!.data.message}`);
-      //     emailInput.value = "";
-      //     passwordInput.value = "";
-      //     addressInput.value = "";
-      //     phoneNumberInput.value = "";
-      //     usernameInput.value = "";
-      //   } else {
-      //     showToast("something went wrong", 3000, "red");
-      //   }
-      // }
     };
-    // return true;
-    // };
 
     const signupForm = document.getElementById("signupform") as HTMLFormElement;
 
