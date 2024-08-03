@@ -1,13 +1,10 @@
-import { Permission } from "./../entity/Permission";
 import { User } from "../interface/user";
-
 import * as userService from "../service/user";
 import { comparePassword } from "../utils/encrypter";
-import { permission } from "process";
+
 import config from "../config";
 import { sign } from "jsonwebtoken";
 import { BadRequestError } from "../error/BadRequestError";
-// import { BadRequestError } from "../error/BadRequestError";
 
 interface CustomJwtPayload {
   email: string;

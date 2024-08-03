@@ -27,7 +27,7 @@ export const getCompaniesByService = async (
   next: NextFunction
 ) => {
   try {
-  
+    console.log("req.query", req.query);
     const getCompanies = await companyService.getCompaniesByService(req.query);
     logger.info("companies fetched successfully");
     res.status(httpStatusCodes.OK).json(getCompanies);

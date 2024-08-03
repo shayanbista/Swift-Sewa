@@ -31,7 +31,7 @@ supplierRouter.post(
     { name: "photo", maxCount: 1 },
     { name: "pan-photo", maxCount: 1 },
   ]),
-  // validateReqBody(companyBodySchema),
+  validateReqBody(companyBodySchema),
   registerCompany
 );
 

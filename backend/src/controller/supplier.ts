@@ -13,13 +13,22 @@ export const registerCompany = async (
 ) => {
   const id = req.user?.id!;
 
+  console.log("body", req.body);
+
+  const serviceIds = JSON.parse(req.body.serviceIds);
+  console.log("serviceIds", serviceIds);
+  const servicePrices = JSON.parse(req.body.price);
+  req.body.price = servicePrices;
+
+  req.body.serviceIds = serviceIds;
+
   try {
     const imageFiles = req.files as { [key: string]: Express.Multer.File[] };
 
     const newCompany = await supplierService.registerCompany(
       req.body,
       imageFiles,
-      String(id)
+      id
     );
 
     logger.info("created succesfully");

@@ -5,6 +5,7 @@ import {
   BaseEntity,
   ManyToOne,
   CreateDateColumn,
+  DeleteDateColumn,
 } from "typeorm";
 import { User } from "./User";
 import { Company } from "./Company";
@@ -41,6 +42,9 @@ export class Booking extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.bookings)
   user: User;
+
+  @DeleteDateColumn({ name: "deletedAt", nullable: true })
+  deletedAt: Date;
 
   @ManyToOne(() => Company, (company) => company.bookings)
   company: Company;

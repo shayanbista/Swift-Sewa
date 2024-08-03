@@ -52,7 +52,6 @@ const update = async (
   });
 
   await Promise.all(promises);
-
   return companyUpdateData;
 };
 
@@ -189,7 +188,7 @@ export const registerCompany = async (
   imageFiles: {
     [key: string]: Express.Multer.File[];
   },
-  id: string
+  id: number
 ) => {
   // const uploadFormImages = await uploadImage(imageFiles);
   const uploadFormImages = await uploadCompanyImages(imageFiles);
@@ -198,11 +197,12 @@ export const registerCompany = async (
   if (!category) throw new BadRequestError("category not found");
 
   const companyServices = await services.getServicesByIds(data.serviceIds);
+
   if (!companyServices) throw new BadRequestError("services not found");
 
   const companyexisits = await findByName(data.name);
   if (companyexisits) throw new BadRequestError("company already exists ");
-  data.userId = id;
+  data.userId = String(id);
 
   const newCompany = await createCompany(
     data,

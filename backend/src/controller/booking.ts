@@ -30,10 +30,24 @@ export const viewBookings = async (
 ) => {
   try {
     const supplierId = req.user?.id!;
-
     logger.info("booking successful");
     const bookings = await bookingService.viewBookings(supplierId);
     res.status(httpStatusCodes.OK).json({ bookings });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const verifyBooking = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const status = req.body.isApproved;
+    const booking = await bookingService.verifyBooking(id, status);
+    res.status(200).json(booking);
   } catch (err) {
     next(err);
   }

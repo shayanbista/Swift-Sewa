@@ -22,9 +22,13 @@ export const deleteCompanyService = async (ids: {
 
 export const findByService = async (query: ServiceCompanyQuery) => {
   console.log("query.location", query.location);
+
+  console.log("querypage", query.page);
+  console.log("currentPage", query.page);
+
   const queryLocation = query.location?.trim();
 
-  return await companyToServiceRepository.find({
+  const [result, total] = await companyToServiceRepository.findAndCount({
     where: {
       service: {
         name: query.service,
@@ -34,7 +38,17 @@ export const findByService = async (query: ServiceCompanyQuery) => {
       },
     },
     relations: ["company"],
+    skip: (query.page! - 1) * query.limit!,
+    take: query.limit,
   });
+
+  return {
+    data: result,
+    totalPages: Math.ceil(total / query.limit!),
+    currentPage: query.page,
+    pageSize: query.limit,
+    totalItems: total,
+  };
 };
 
 export const companyServiceExists = async (id: number, companyId: number) => {

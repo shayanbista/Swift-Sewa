@@ -10,15 +10,19 @@ import { BadRequestError } from "../error/BadRequestError";
 const logger = loggerWithNameSpace("ServicesService");
 
 const serviceRepository = AppDataSource.getRepository(Service);
-export const findByIds = async (Ids: string[]) => {
-  console.log(Ids);
+export const findByIds = async (ids: string[]) => {
+  logger.info("finding services by ids", ids);
+
+  console.log("ids after receiving", ids);
+
   logger.info("finding services");
 
   const services = await serviceRepository.find({
     where: {
-      id: In(Ids),
+      id: In(ids),
     },
   });
+  console.log("services", services);
 
   return services;
 };
@@ -28,10 +32,13 @@ export const getAllServices = async () => {
   return await serviceRepository.find();
 };
 
-export const getServicesByIds = async (Ids: string[]) => {
-  const services = await findByIds(Ids);
+export const getServicesByIds = async (ids: string[]) => {
+  console.log("ids  before passing", ids);
+  const services = await findByIds(ids);
 
-  if (services.length === Ids.length) {
+  console.log("services", services);
+
+  if (services.length === ids.length) {
     logger.info("services found");
     return services;
   } else {
@@ -42,7 +49,7 @@ export const getServicesByIds = async (Ids: string[]) => {
 
 export const getCompaniesByService = async (query: ServiceCompanyQuery) => {
   const companies = await supplierService.findCompaniesByService(query);
-  if (companies.length == 0) throw new BadRequestError("companies dont exist");
+  // if (companies.result.data.length == 0) throw new BadRequestError("companies dont exist");
 
   logger.info("companies returned");
   return companies;

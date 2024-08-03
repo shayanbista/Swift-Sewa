@@ -1,16 +1,5 @@
 import Joi from "joi";
 
-// Define the schema for file uploads
-const fileSchema = Joi.object({
-  fieldname: Joi.string().required(),
-  originalname: Joi.string().required(),
-  encoding: Joi.string().required(),
-  mimetype: Joi.string().required(),
-  buffer: Joi.binary().required(),
-  size: Joi.number().required(),
-});
-
-//TODO fix the schema
 // Define the schema for companyData
 export const companyBodySchema = Joi.object({
   name: Joi.string().required().messages({
@@ -32,18 +21,7 @@ export const companyBodySchema = Joi.object({
   categoryId: Joi.string().required().messages({
     "any.required": "Please select a category",
   }),
-  // photo: Joi.object()
-  //   .pattern(Joi.string(), Joi.array().items(fileSchema))
-  //   .required()
-  //   .messages({
-  //     "any.required": "Photo is required",
-  //   }),
-  // panPhoto: Joi.object()
-  //   .pattern(Joi.string(), Joi.array().items(fileSchema))
-  //   .required()
-  //   .messages({
-  //     "any.required": "PAN photo is required",
-  //   }),
+
   price: Joi.alternatives()
     .try(Joi.array().items(Joi.string()).required(), Joi.string().required())
     .messages({
@@ -59,47 +37,16 @@ export const companyBodySchema = Joi.object({
   closingTime: Joi.string().required().messages({
     "any.required": "Closing time is required",
   }),
-  description: Joi.string().optional().messages({
+  companyDescription: Joi.string().optional().messages({
     "any.required": "Description is required",
   }),
-  // serviceIds: Joi.alternatives()
-  //   .try(Joi.array().items(Joi.string()).required())
-  //   .messages({
-  //     "any.required": "Please select the services",
-  //   }),
+
+  serviceIds: Joi.alternatives().try(Joi.required()).messages({
+    "any.required": "ServiceId is required",
+  }),
 }).options({
   stripUnknown: true,
 });
-
-// Define the schema for companyData
-
-// export const companyupdateSchema = Joi.object({
-//   name: Joi.string().required().messages({
-//     "any.required": "Name is required",
-//   }),
-//   phoneNumber: Joi.string().required().messages({
-//     "any.required": "Phone number is required",
-//   }),
-//   address: Joi.string().required().messages({
-//     "any.required": "Address is required",
-//   }),
-//   location: Joi.string().required().messages({
-//     "any.required": "Location is required",
-//   }),
-//   categoryId: Joi.string().required().messages({
-//     "any.required": "Please select a category",
-//   }),
-//   price: Joi.alternatives()
-//     .try(Joi.array().items(Joi.string()), Joi.string())
-//     .required()
-//     .messages({
-//       "alternatives.match":
-//         "Please provide the price for each selected service.",
-//         "string.base": "Price must be a string.",
-//     })
-//   }).options({
-//     stripUnknown: true,
-//   })
 
 export const companyupdateSchema = Joi.object({
   name: Joi.string().required().messages({

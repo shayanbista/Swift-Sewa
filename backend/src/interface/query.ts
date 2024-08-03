@@ -9,5 +9,5 @@ export interface ServiceCompanyQuery {
   service?: string;
   location?: string;
   page?: number;
-  size?: number;
+  limit?: number;
 }

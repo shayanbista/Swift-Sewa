@@ -1,7 +1,5 @@
 import { UserProfile } from "./../entity/UserProfile";
 import { User } from "../entity/User";
-import { Role } from "../entity/Role";
-import { Permission } from "../entity/Permission";
 import { AppDataSource } from "../dataSource";
 import { userRepository } from "../model/UserModel";
 import { hashPassword } from "../utils/encrypter";

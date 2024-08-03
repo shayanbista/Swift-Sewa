@@ -5,7 +5,6 @@ import { Response } from "express";
 import { Request } from "../interface/request";
 import { BadRequestError } from "../error/BadRequestError";
 import { NotFoundError } from "../error/NotFoundError";
-import { ConflictError } from "../error/ConflictError";
 
 export const createUser = async (
   req: Request,

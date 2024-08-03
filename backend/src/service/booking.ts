@@ -15,6 +15,18 @@ import { In } from "typeorm";
 const bookRepository = AppDataSource.getRepository(Booking);
 const logger = loggerWithNameSpace("BookingService");
 
+const findBookingById = async (id: number) => {
+  return await bookRepository.findOneBy({ id });
+};
+
+const update = async (id: number, status: boolean) => {
+  return await bookRepository.update({ id }, { isApproved: status });
+};
+
+const deleteBooking = async (id: number) => {
+  return await bookRepository.softDelete({ id });
+};
+
 const create = async (data: booking) => {
   const booking = new Booking();
   booking.contactName = data.contactName;
@@ -32,13 +44,15 @@ const create = async (data: booking) => {
   return booking;
 };
 
-const findBookings = async (comaniesIds: number[]) => {
+const findBookings = async (companyIds: number[]) => {
   const bookings = await bookRepository.find({
     where: {
       company: {
-        id: In(comaniesIds),
+        id: In(companyIds),
       },
+      isApproved: false,
     },
+    relations: ["company", "serviceToCompany.service"],
   });
   return bookings;
 };
@@ -76,4 +90,17 @@ export const viewBookings = async (id: number) => {
     throw new BadRequestError("bookings not found");
   }
   return bookings;
+};
+
+export const verifyBooking = async (id: number, status: boolean) => {
+  const bookedData = await findBookingById(id);
+  if (!bookedData) throw new BadRequestError("booking not found");
+
+  if (!status) {
+    const deletedData = await deleteBooking(id);
+    return deletedData;
+  }
+
+  const updatedData = await update(id, status);
+  return updatedData;
 };
