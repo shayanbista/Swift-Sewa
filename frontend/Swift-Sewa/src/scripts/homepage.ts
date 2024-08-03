@@ -4,7 +4,9 @@ export class HomePageActions {
       document.querySelector(".navbar-burger")!;
 
     navbarMenu.onclick = () => {
-      let dropdowns = document.querySelector(".dropdown-menu") as HTMLElement;
+      let dropdowns = document.querySelector(".dropdown-menu") as any;
+
+      console.log("dropdowm", dropdowns);
 
       if (dropdowns.classList.contains("hidden")) {
         dropdowns.classList.remove("hidden");

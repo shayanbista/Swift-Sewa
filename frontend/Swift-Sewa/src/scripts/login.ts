@@ -3,6 +3,7 @@ import { displayResponseErrors } from "../utils/errorHandler";
 import { userApi } from "../api/user";
 import { roleAuthApi } from "../api/me";
 import { showToast } from "../constants/toastify";
+import { authApi } from "../api/auth";
 
 export class LoginActions {
   static login: () => void = () => {
@@ -64,7 +65,7 @@ export class LoginActions {
         const email = emailInput.value;
         const password = passwordInput.value;
         const loginData = { email, password };
-        const checkLogin = await userApi.login(loginData);
+        const checkLogin = await authApi.login(loginData);
 
         const {
           message: { accessToken, refreshToken },

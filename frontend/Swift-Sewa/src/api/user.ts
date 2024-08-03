@@ -40,13 +40,4 @@ export const userApi = {
       throw error;
     }
   },
-
-  login: async (data: Pick<userForm, "email" | "password">) => {
-    try {
-      const response = await instance.post("/auth/login", data);
-      return response.data;
-    } catch (err) {
-      throw err;
-    }
-  },
 };
