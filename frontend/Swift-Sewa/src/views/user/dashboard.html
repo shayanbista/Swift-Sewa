@@ -1,6 +1,6 @@
 <body class="h-screen">
  
-    <nav class="nav-section h-[10vh] bg-white shadow-md py-2 md:py-4 md:px-10 z-10">
+    <nav class="nav-section h-[10vh] fixed w-full bg-slate-50 shadow-md py-2 md:py-4 md:px-10 z-10">
       <div
         class="nav-container h-full mx-auto sm:px-10 lg:px-1  flex flex-row justify-between items-center"
       >
@@ -26,16 +26,9 @@
               id="user-button" onclick="toggleDropdown()"
               
             >
-            <figure class="  w-8 h-8 ">
-              <img
-                class=" rounded-full w-full h-full object-contain"
-                src="/images/user/img-02.jpg"
-                alt="Header Avatar"
-              />
+           <figure class="w-8 h-8 flex items-center justify-center">
+                <i class="fas fa-user rounded-full text-gray-600 text-2xl"></i>
             </figure>
-              <span class="hidden fw-medium xl:block dark:text-gray-50 ml-4"
-                >Bijen</span
-              >
             </button>
         </div>
       </div>
@@ -44,14 +37,14 @@
         class="dropdown-menu lg:w-[10%] absolute right-0 mt-4 bg-white rounded-md shadow-lg z-20 hidden"
       ><hr>
           <a
-          href="/#/profile"
+          href="/#/user/profile/"
           class="block text-center  text-orange-500 px-4 py-2 m-2 rounded hover:bg-cyan-200"
         >
           View Profile
         </a>
 
          <a
-          href="/#/"
+          href="#" id="logout"
           class="block text-center lg: text-orange-500 px-4 py-2 m-2 rounded hover:bg-cyan-200"
         >
          logout
@@ -61,7 +54,7 @@
 
     <!-- search-section -->
       <section class="search-section h-[90vh]">
-      <div class="flex h-full pl-10 pr-10 bg-orange-100 justify-between">
+      <div class="flex h-full pl-10 pr-10 bg-orange-100 justify-between w-full ">
       <div>
         <div class="flex flex-col justify-center h-full gap-5">
           <h1 class="text-4xl md:text-6xl mb-7 text-primary text-amber-700">
@@ -94,9 +87,9 @@
         </div>
       </div>
       <div
-        class="hidden lg:flex flex-col lg:pl-32 justify-center h-full gap-5 pr-36"
+        class="hidden lg:flex flex-col lg:pl-32 justify-center items-end h-full gap-5 pr-36"
       >
-        <figure>
+        <figure class="w-3/4">
           <img
             src="../../../public/images/swift2_re.webp"
             class="rounded-2xl"
@@ -107,8 +100,8 @@
     </div>
       </section>
   <!-- services-section -->
-        <section class ="category-section bg-gray-100 w-full">
-          <h1 class=" text-2xl text-center pt-10 md:text-4xl text-blue-500">Popular Services</h1>
+        <section class ="category-section bg-orange-50 w-full">
+          <h1 class=" text-2xl text-center pt-10 md:text-4xl text-orange-950">Popular Services</h1>
           <div class="category grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:pt-10 ">
            <div class="w-full "  id="first-service">
              <div
@@ -118,7 +111,7 @@
                   <figure class="h-[50%] w-[80%]">
                   <img src="../../../public/images/services/plumbing.webp" class="object-cover rounded-2xl" alt="img">
                   </figure>
-                  <p class="mt-6 text-blue-400">Plumbing</p>
+                  <p class="mt-6  text-2xl text-orange-900">Plumbing</p>
                 </div>
           </div>
           </div>
@@ -131,7 +124,7 @@
                   <figure class="h-[50%] w-[80%]">
                   <img src="../../../public/images/services/repairing.webp" class="object-cover rounded-2xl" alt="img">
                   </figure>
-                  <p   class="mt-6 text-blue-400">Mechanic</p>
+                  <p   class="mt-6 text-2xl text-orange-900">Mechanic</p>
                 </div>
           </div>
           </div>
@@ -144,7 +137,7 @@
                   <figure class="h-[50%] w-[80%]">
                   <img src="../../../public/images/services/barber.webp" class="object-cover rounded-2xl" alt="img">
                   </figure>
-                  <p id="third-service" class="mt-6 text-blue-400">Barber</p>
+                  <p id="third-service" class="mt-6 text-2xl text-orange-900">Barber</p>
                 </div>
           </div>
           </div>
@@ -157,7 +150,7 @@
                   <figure class="h-[50%] w-[80%]">
                   <img src="../../../public/images/services/gym trainer.jpg" class="object-cover rounded-2xl" alt="img">
                   </figure>
-                  <p  class="mt-6 text-blue-400 ">Trainer</p>
+                  <p  class="mt-6 text-2xl text-orange-900">Trainer</p>
                 </div>
             </div>
 
@@ -178,9 +171,9 @@
                     </a>
                   <div class="p-5">
                       <a href="#/categories">
-                          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Your Home, Our Expertise</h5>
+                          <h5 class="mb-2 text-2xl font-bold tracking-tight text-orange-950 dark:text-white">Your Home, Our Expertise</h5>
                       </a>
-                      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Transform your living space with top-notch home repair services. From quick fixes to major renovations, we’re here.</p>
+                      <p class="mb-3 font-normal text-gray-500">Transform your living space with top-notch home repair services. From quick fixes to major renovations, we’re here.</p>
                       <a href="/categories"  id="category1"  data-categoryId=" " onclick="getCategory()" data-name="Home Services" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-orange-500 rounded-lg hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                           Get more of us
                           <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -204,9 +197,9 @@
                     </a>
                   <div class="p-5">
                       <a href="#">
-                          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Drive With Confidence</h5>
+                          <h5 class="mb-2 text-2xl font-bold tracking-tight text-orange-950 ">Drive With Confidence</h5>
                       </a>
-                      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+                      <p class="mb-3 font-normal text-gray-500">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
                        <a href="#"    id="category2"   data-categoryId=" "  class=" inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-orange-500 rounded-lg hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                           Get more of us
                           <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -230,9 +223,9 @@
                     </a>
                   <div class="p-5">
                       <a href="">
-                          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Your Health,Our Priority</h5>
+                          <h5 class="mb-2 text-2xl font-bold tracking-tight text-orange-950 ">Your Health,Our Priority</h5>
                       </a>
-                      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Access top-tier healthcare services right at your doorstep. Compassionate care from trusted professionals.</p>
+                      <p class="mb-3 font-normal text-gray-500">Access top-tier healthcare services right at your doorstep. Compassionate care from trusted professionals.</p>
                        <a href=""  id="category3"   data-categoryId=" "  class=" inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-orange-500 rounded-lg hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                           Get more of us
                           <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
@@ -256,10 +249,10 @@
                     </a>
                   <div class="p-5">
                       <a href="">
-                          <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Look Good, Feel Great
+                          <h5 class="mb-2 text-2xl font-bold tracking-tight  text-orange-950 ">Look Good, Feel Great
                   </h5>
                       </a>
-                      <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Indulge in premium beauty and wellness treatments. Because you deserve the best.</p>
+                      <p class="mb-3 font-normal text-gray-500">Indulge in premium beauty and wellness treatments. Because you deserve the best.</p>
                       <a href=""  id="category4"    data-categoryId=" " class=" inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-orange-500 rounded-lg hover:bg-orange-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                           Get more of us
                           <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">

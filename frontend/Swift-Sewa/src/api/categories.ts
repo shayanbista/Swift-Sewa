@@ -19,10 +19,15 @@ export const categoryApi = {
     }
   },
 
-  getCompanyByCategory: async (data: { id: string; location: string }) => {
+  getCompanyByCategory: async (data: {
+    id: string;
+    location: string;
+    page: number;
+    limit: number;
+  }) => {
     try {
       const response = await instance.get(
-        `/categories/${data.id}/companies?location=${data.location}`
+        `/categories/${data.id}/companies?location=${data.location}&page=${data.page}&limit=${data.limit}`
       );
       return response.data;
     } catch (error) {

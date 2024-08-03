@@ -1,9 +1,8 @@
-import { role } from "./../../constant";
 import { AxiosError } from "axios";
 import { categoryApi } from "../../api/categories";
 import { serviceApi } from "../../api/services";
 import { Category } from "../../interface/category";
-import { roleAuthApi } from "../../api/me";
+import { showToast } from "../../constants/toastify";
 
 export class UserDashboardActions {
   static userDashboard: () => void = async () => {
@@ -27,12 +26,18 @@ export class UserDashboardActions {
     };
 
     await init();
+
     const currentYear = document.getElementById("year")!;
     currentYear.textContent = new Date().getFullYear().toString();
+
+    const logout = document.getElementById("logout") as HTMLButtonElement;
+    console.log(logout);
 
     const userProfile: HTMLButtonElement = document.getElementById(
       "user-button"
     ) as HTMLButtonElement;
+
+    const userName = document.getElementById("profile-name") as HTMLSpanElement;
 
     const selectedLocation = document.getElementById(
       "location"
@@ -80,7 +85,8 @@ export class UserDashboardActions {
       const target = event.currentTarget as HTMLAnchorElement;
       const categoryId = target.getAttribute("data-categoryId");
       target.href = `#/categories/:${categoryId}`;
-      const location = localStorage.getItem("location");
+      let location = localStorage.getItem("location");
+      location = "Kathmandu";
     }
 
     const location = localStorage.getItem("location");
@@ -98,7 +104,9 @@ export class UserDashboardActions {
     searchButton.addEventListener("click", handleSearch);
 
     userProfile.onclick = () => {
-      let dropdowns = document.querySelector(".dropdown-menu") as any;
+      let dropdowns = document.querySelector(
+        ".dropdown-menu"
+      ) as HTMLDivElement;
 
       if (dropdowns.classList.contains("hidden")) {
         dropdowns.classList.remove("hidden");
@@ -107,12 +115,22 @@ export class UserDashboardActions {
       }
     };
 
+    logout.onclick = () => {
+      window.location.href = "#/";
+      localStorage.clear();
+      showToast("logged out successfully", 2000, "green");
+    };
+
     async function handleSearch() {
       if (query.value.length < 0) {
         throw new Error("query is empty");
       }
 
-      const searchedData = await serviceApi.getSearchedQuery(query.value);
+      const searchedData = await serviceApi.getSearchedQuery(
+        query.value,
+        1,
+        10
+      );
 
       window.location.href = `/#/user/search?${query.value}`;
     }

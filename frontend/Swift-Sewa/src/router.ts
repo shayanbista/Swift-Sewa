@@ -38,7 +38,7 @@ const routes: { [key: string]: { component: RouteComponent } } = {
     component: DashboardPage,
   },
 
-  "#/profile": {
+  "#/user/profile/": {
     component: ProfilePage,
   },
 

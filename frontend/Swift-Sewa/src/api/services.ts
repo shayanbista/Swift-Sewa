@@ -11,13 +11,15 @@ export const serviceApi = {
     }
   },
 
-  getSearchedQuery: async (query: string) => {
-    const location = localStorage.getItem("location");
+  getSearchedQuery: async (query: string, page: number, limit: number) => {
+    let location = localStorage.getItem("location");
     console.log("location", location);
+    location == null ? (location = "Kathmandu") : location;
     try {
       const response = await instance.get(
-        `services/companies?service=${query}&location=${location}`
+        `services/companies?service=${query}&location=${location}&page=${page}&limit=${limit}`
       );
+
       return response.data;
     } catch (error) {
       console.log("error", error);

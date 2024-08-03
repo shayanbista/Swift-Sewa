@@ -9,28 +9,9 @@ export class SelectedSupplierCompanyActions {
     const companyId = window.location.hash.split(":")[1];
 
     async function init() {
-      // const companyName = document.getElementById(
-      //   "company-name"
-      // ) as HTMLHeadElement;
-
-      // const companyAddress = document.getElementById(
-      //   "company-address"
-      // ) as HTMLParagraphElement;
-      // console.log("companyAddress", companyAddress);
-
-      // const companyImage = document.getElementById(
-      //   "company-image"
-      // ) as HTMLImageElement;
-      // console.log("companyImage", companyImage);
-
       try {
         const id = Number(companyId);
         const response = await supplierApi.getOne(id);
-        console.log("response", response);
-        // companyName.textContent = response.companies.name;
-        // companyAddress.textContent = response.companies.address;
-        // companyImage.src = response.companies.photo;
-
         renderContent(response);
       } catch (err) {
         console.log("err", err);
@@ -38,13 +19,6 @@ export class SelectedSupplierCompanyActions {
     }
 
     function renderContent(response: { companies: Company }) {
-      console.log("response in rendercontent", response);
-
-      console.log(
-        "response in rendercontent",
-        response.companies.ServiceToCompany
-      );
-
       const extractData = response.companies.ServiceToCompany.map(
         (item: ServiceToCompany) => ({
           id: item.id,
