@@ -28,6 +28,9 @@ export const login = async (
 export const getUser = (req: Request, res: Response, next: NextFunction) => {
   try {
     const user = req.user?.role;
+    const user1 = req.user;
+    console.log("user", user1);
+
     res.status(httpStatusCodes.OK).json({ role: user });
   } catch (err) {
     console.log("err", err);

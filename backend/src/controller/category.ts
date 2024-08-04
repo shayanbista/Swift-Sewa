@@ -58,6 +58,7 @@ export const getCompanyByCategory = async (
 ) => {
   try {
     const id = req.params.id;
+    console.log("query", req.query);
     const getCategory = await categoryService.companyByCategory(id, req.query);
     res.status(httpStatusCodes.OK).json({ message: getCategory });
   } catch (err) {

@@ -42,7 +42,10 @@ export const companyByCategory = async (
   query: CategoryCompanyQuery
 ) => {
   const companies = await supplierServices.findCompanyByCategory(id, query);
-  if (!companies || companies.length === 0)
+
+  if (companies.data.length === 0) {
     throw new BadRequestError("companies not found");
+  }
+
   return companies;
 };

@@ -18,14 +18,10 @@ export const deleteCompanyService = async (ids: {
     .where("company_id = :companyId", { companyId: ids.companyId })
     .andWhere("service_id = :serviceId", { serviceId: ids.serviceId })
     .execute();
+    
 };
 
 export const findByService = async (query: ServiceCompanyQuery) => {
-  console.log("query.location", query.location);
-
-  console.log("querypage", query.page);
-  console.log("currentPage", query.page);
-
   const queryLocation = query.location?.trim();
 
   const [result, total] = await companyToServiceRepository.findAndCount({

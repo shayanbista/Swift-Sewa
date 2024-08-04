@@ -150,7 +150,6 @@ export const updateUserProfile = async (
   // Check if email is already used by another user
   const existingUser = await findByEmail(email);
   if (existingUser && existingUser.id !== id) {
-    //TODO fix the eroors type properly only 1 type is getting returned
     throw new BadRequestError("Email already in use");
   }
 

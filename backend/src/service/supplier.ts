@@ -26,7 +26,6 @@ const update = async (
   data: Partial<companyData>,
   newImage: { imageUrl: string }
 ): Promise<Partial<Company>> => {
-  console.log("dataactive", data.isActive);
   const companyUpdateData: Partial<Company> = {
     ...(data.name && { name: data.name }),
     ...(data.address && { address: data.address }),
@@ -61,8 +60,8 @@ export const createCompany = async (
   services: Service[]
 ) => {
   const newCompany = new Company();
-  newCompany.name = data.name;
 
+  newCompany.name = data.name;
   newCompany.address = data.address;
   newCompany.location = data.location;
   newCompany.phoneNumber = data.phoneNumber;
@@ -75,7 +74,6 @@ export const createCompany = async (
   newCompany.openingTime = data.openingTime;
   newCompany.closingTime = data.closingTime;
   newCompany.description = data.companyDescription;
-
   await companyRepository.save(newCompany);
 
   const promises = services.map(async (item, index) => {
@@ -147,14 +145,24 @@ export const findAll = async (userId: number) => {
 };
 
 const findByCategory = async (id: number, query: CategoryCompanyQuery) => {
-  return await companyRepository.find({
+  const [result, total] = await companyRepository.findAndCount({
     where: {
       category: {
         id,
       },
       location: query.location,
     },
+    skip: (query.page! - 1) * query.limit!,
+    take: query.limit!,
   });
+
+  return {
+    data: result,
+    totalPages: Math.ceil(total / query.limit!),
+    currentPage: query.page,
+    pageSize: query.limit,
+    totalItems: total,
+  };
 };
 
 export const uploadCompanyImages = async (imageFiles: {
@@ -312,7 +320,6 @@ export const findCompanyByCategory = async (
 
 export const findCompaniesByService = async (query: ServiceCompanyQuery) => {
   const companies = await findByService(query);
-  console.log("companies", companies);
   return companies;
 };
 

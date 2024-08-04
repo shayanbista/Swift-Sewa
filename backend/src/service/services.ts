@@ -49,7 +49,9 @@ export const getServicesByIds = async (ids: string[]) => {
 
 export const getCompaniesByService = async (query: ServiceCompanyQuery) => {
   const companies = await supplierService.findCompaniesByService(query);
-  // if (companies.result.data.length == 0) throw new BadRequestError("companies dont exist");
+  if (companies.data.length === 0) {
+    throw new BadRequestError("Companies don't exist");
+  }
 
   logger.info("companies returned");
   return companies;

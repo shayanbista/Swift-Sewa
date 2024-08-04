@@ -5,9 +5,13 @@ export const companyBodySchema = Joi.object({
   name: Joi.string().required().messages({
     "any.required": "Name is required",
   }),
-  phoneNumber: Joi.string().required().messages({
-    "any.required": "Phone number is required",
-  }),
+  phoneNumber: Joi.string()
+    .pattern(/^[0-9]+$/)
+    .required()
+    .messages({
+      "string.pattern.base": "Phone number must contain only digits",
+      "any.required": "Phone number is required",
+    }),
   address: Joi.string().required().messages({
     "any.required": "Address is required",
   }),
@@ -15,9 +19,6 @@ export const companyBodySchema = Joi.object({
     "any.required": "Location is required",
   }),
 
-  userId: Joi.string().required().messages({
-    "any.required": "User ID is required",
-  }),
   categoryId: Joi.string().required().messages({
     "any.required": "Please select a category",
   }),
