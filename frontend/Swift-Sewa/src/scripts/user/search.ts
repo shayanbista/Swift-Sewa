@@ -7,8 +7,6 @@ export class UserSearchActions {
     const limit = 3;
 
     const init = async (page = 1) => {
-      console.log("page", page);
-
       let hash = window.location.hash;
       let hashWithoutHash = hash.substring(1);
       let parts = hashWithoutHash.split("?");
@@ -19,7 +17,8 @@ export class UserSearchActions {
         page,
         limit
       );
-      console.log("searchedQuery", getSearchedQuery);
+
+      console.log("data", getSearchedQuery);
 
       await renderCategories(getSearchedQuery);
       updatePagination(getSearchedQuery.totalPages);

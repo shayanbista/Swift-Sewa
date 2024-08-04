@@ -3,13 +3,21 @@ import { Company } from "../../interface/company";
 
 export class AdminPendingCompanies {
   static pendingCompanies: () => void = async () => {
+    const users = document.getElementById("users") as HTMLParagraphElement;
+    users.onclick = () => {
+      window.location.href = "#/admin/dashboard/users/";
+    };
+
+    const logout = document.getElementById("logout") as HTMLParagraphElement;
+    logout.onclick = () => {
+      window.location.href = "#";
+      localStorage.clear();
+    };
     try {
       async function init() {
         const pendingCompanies = await adminApi.getPendingCompanies();
-
         await renderPendingCompanies(pendingCompanies);
       }
-
       init();
 
       function renderPendingCompanies(pendingCompanies: Company[]) {

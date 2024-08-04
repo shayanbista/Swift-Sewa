@@ -15,10 +15,11 @@ export class AdminDashboardActions {
       sidebar.classList.toggle("-translate-x-full");
     }
 
-    const users = document.getElementById("users") as HTMLButtonElement;
+    const users = document.getElementById("users") as HTMLParagraphElement;
+    console.log("users", users);
 
     users.onclick = () => {
-      window.location.href = "#/admin/dashboard/users";
+      window.location.href = "#/admin/dashboard/users/";
     };
     const verifyCompanies = document.getElementById(
       "verifyCompanies"
@@ -26,6 +27,12 @@ export class AdminDashboardActions {
 
     verifyCompanies.onclick = () => {
       window.location.href = "#/admin/companies/pending/";
+    };
+
+    const logout = document.getElementById("logout") as HTMLParagraphElement;
+    logout.onclick = () => {
+      window.location.href = "#";
+      localStorage.clear();
     };
   };
 }

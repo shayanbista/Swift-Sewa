@@ -21,7 +21,7 @@ const config: IConfig = {
     password: requireEnv("DB_PASSWORD"),
     database: requireEnv("DB_DATABASE"),
     synchronize: false,
-    logging: true,
+    logging: false,
     entities: ["src/entity/**/*.ts"],
     migrations: ["src/migration/**/*.ts"],
     subscribers: ["src/subscriber/**/*.ts"],

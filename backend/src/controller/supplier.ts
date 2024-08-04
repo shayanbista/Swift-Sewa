@@ -3,6 +3,7 @@ import { NextFunction, Response } from "express";
 import * as supplierService from "../service/supplier";
 import { Request } from "../interface/request";
 import loggerWithNameSpace from "../utils/logger";
+import { SupplierCompanyQuery } from "../interface/query";
 
 const logger = loggerWithNameSpace("SupplierController");
 
@@ -13,6 +14,8 @@ export const registerCompany = async (
 ) => {
   const id = req.user?.id!;
 
+  console.log("req.body", req.body);
+
   const serviceIds = JSON.parse(req.body.serviceIds);
   const servicePrices = JSON.parse(req.body.price);
   req.body.price = servicePrices;
@@ -21,7 +24,6 @@ export const registerCompany = async (
 
   try {
     const imageFiles = req.files as { [key: string]: Express.Multer.File[] };
-
     const newCompany = await supplierService.registerCompany(
       req.body,
       imageFiles,
@@ -39,13 +41,15 @@ export const registerCompany = async (
 };
 
 export const getSuppliersCompanies = async (
-  req: Request,
+  req: Request<any, any, any, SupplierCompanyQuery>,
   res: Response,
   next: NextFunction
 ) => {
   try {
+    const query = req.query;
+    console.log("query", query);
     const userId = req.user?.id!;
-    const companies = await supplierService.getCompanies(userId);
+    const companies = await supplierService.getCompanies(userId, req.query);
     logger.info("fetched companies successfully");
     res.status(httpStatusCodes.OK).json({ companies });
   } catch (err) {
@@ -77,8 +81,6 @@ export const updateCompany = async (
   const userId = req.user?.id!;
   const { id } = req.params;
   const data = req.body;
-
-  console.log("data", data);
 
   const imageFiles = req.files as { [key: string]: Express.Multer.File[] };
 

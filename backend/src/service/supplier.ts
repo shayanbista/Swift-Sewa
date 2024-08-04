@@ -12,7 +12,11 @@ import { ServiceToCompany } from "../entity/Company_Service";
 import loggerWithNameSpace from "../utils/logger";
 import { uploadSingleImage } from "../utils/fileUploader";
 import { deleteCompanyService } from "./companytoservice";
-import { CategoryCompanyQuery, ServiceCompanyQuery } from "../interface/query";
+import {
+  CategoryCompanyQuery,
+  ServiceCompanyQuery,
+  SupplierCompanyQuery,
+} from "../interface/query";
 
 import { findByService } from "./companytoservice";
 
@@ -96,6 +100,11 @@ export const findByName = async (name: string) => {
   return await companyRepository.findOne({ where: { name, isPending: false } });
 };
 
+export const findByRegisteredName = async (name: string) => {
+  logger.info(" finding company by name");
+  return await companyRepository.findOne({ where: { name } });
+};
+
 export const pendingCompanies = async () => {
   return await companyRepository.find({ where: { isPending: true } });
 };
@@ -140,8 +149,27 @@ export const findByCompanyId = async (id: number, userId: number) => {
   });
 };
 
-export const findAll = async (userId: number) => {
-  return await companyRepository.find({ where: { user: { id: userId } } });
+// export const findAll = async (userId: number, query: SupplierCompanyQuery) => {
+//   return await companyRepository.find({ where: { user: { id: userId } } });
+// };
+
+export const findAll = async (userId: number, query: SupplierCompanyQuery) => {
+  const { page, limit } = query;
+  const offset = (page! - 1) * limit!;
+
+  const [companies, total] = await companyRepository.findAndCount({
+    where: { user: { id: userId }, isPending: false },
+    skip: offset,
+    take: limit,
+  });
+
+  return {
+    data: companies,
+    totalPages: Math.ceil(total / limit!),
+    currentPage: page,
+    pageSize: limit,
+    totalItems: total,
+  };
 };
 
 const findByCategory = async (id: number, query: CategoryCompanyQuery) => {
@@ -208,7 +236,8 @@ export const registerCompany = async (
 
   if (!companyServices) throw new BadRequestError("services not found");
 
-  const companyexisits = await findByName(data.name);
+  const companyexisits = await findByRegisteredName(data.name);
+
   if (companyexisits) throw new BadRequestError("company already exists ");
   data.userId = String(id);
 
@@ -236,27 +265,29 @@ const deletecompanyService = async (ids: {
   return deleteCompany;
 };
 
-export const getCompanies = async (id: number) => {
-  const activeCompanies: Company[] = [];
+export const getCompanies = async (id: number, query: SupplierCompanyQuery) => {
+  // const activeCompanies: Company[] = [];
   if (!id) throw new BadRequestError("user not found");
-  const companies = await findAll(id);
+  const companies = await findAll(id, query);
 
-  if (companies.length === 0) throw new BadRequestError("companies dont exist");
+  console.log("companies", companies);
 
-  companies.forEach((company) => {
-    if (company.isPending == false) {
-      activeCompanies.push(company);
-    }
-  });
+  // if (companies.length === 0) throw new BadRequestError("companies dont exist");
 
-  if (activeCompanies.length === 0) {
-    throw new BadRequestError(
-      "the company has not been verified by admin please try again later"
-    );
-  }
+  // companies.forEach((company) => {
+  //   if (company.isPending == false) {
+  //     activeCompanies.push(company);
+  //   }
+  // });
 
-  return activeCompanies;
+  // if (activeCompanies.length === 0) {
+  //   throw new BadRequestError(
+  //     "the company has not been verified by admin please try again later"
+  //   );
+
+  return companies;
 };
+
 
 export const getCompany = async (id: number, userId: number) => {
   const company = await findByCompanyId(id, userId);

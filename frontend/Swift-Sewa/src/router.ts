@@ -81,7 +81,7 @@ const routes: { [key: string]: { component: RouteComponent } } = {
   "#/admin/dashboard/service": {
     component: AdminDashboardServicePage,
   },
-  "#/admin/users/": {
+  "#/admin/dashboard/users/": {
     component: AdminDashboardUsersPage,
   },
   "#/admin/companies/pending/": {

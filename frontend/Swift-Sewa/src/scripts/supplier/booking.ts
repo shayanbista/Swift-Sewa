@@ -1,21 +1,27 @@
+import { x } from "joi";
 import { bookApi } from "../../api/booking";
 import { showToast } from "../../constants/toastify";
 import { Booking } from "../../interface/booking";
 
 export class SupplierBookingActions {
   static supplierBooking: () => void = async () => {
-    const init = async () => {
+    let currentPage = 1;
+    const limit = 3;
+    const init = async (page = 1) => {
       try {
-        const response = await bookApi.get();
-        console.log("reponse", response);
+        let currentPage = page;
+        const data = {
+          page: currentPage,
+          limit,
+        };
+        const response = await bookApi.get(data);
 
         await renderContent(response);
       } catch (err) {
         console.log("err", err);
+        await renderContent({ bookings: [] });
       }
     };
-
-    init();
 
     function renderContent(data: { bookings: Booking[] }) {
       const container = document.getElementById(
@@ -23,6 +29,13 @@ export class SupplierBookingActions {
       ) as HTMLDivElement;
 
       container.innerHTML = "";
+
+      if (data.bookings.length === 0) {
+        container.innerHTML = "<p >No bookings found</p>";
+        window.location.href = "#/supplier/dashboard/";
+
+        showToast("No bookings found", 2000, "red");
+      }
 
       data.bookings.forEach((item) => {
         const content = `
@@ -112,5 +125,6 @@ export class SupplierBookingActions {
         showToast("rejected succesfully", 3000, "green");
       }
     }
+    init();
   };
 }

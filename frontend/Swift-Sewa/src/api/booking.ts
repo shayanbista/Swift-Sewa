@@ -2,9 +2,12 @@ import { BookingForm } from "../interface/booking";
 import { instance } from "./base";
 
 export const bookApi = {
-  get: async () => {
+  get: async (data: { page: number; limit: number }) => {
     try {
-      const response = await instance.get(`/bookings/`);
+      const response = await instance.get(
+        `/bookings/?page=${data.page}&limit=${data.limit}`
+      );
+
       return response.data;
     } catch (error) {
       console.error("Error fetching profile:", error);

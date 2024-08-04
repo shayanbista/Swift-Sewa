@@ -3,6 +3,7 @@ import { Service } from "./../../interface/service";
 
 import { categoryApi } from "../../api/categories";
 import { supplierApi } from "../../api/supplier";
+import { required } from "joi";
 
 export class SelectedCompanyActions {
   static selected: () => void = async () => {
@@ -18,6 +19,8 @@ export class SelectedCompanyActions {
     const addServiceButton = document.getElementById(
       "add-service-button"
     ) as HTMLButtonElement;
+
+    const categoryName = document.getElementsByClassName("");
 
     const servicesOfCategory: Service[] = [];
 
@@ -90,12 +93,14 @@ export class SelectedCompanyActions {
     }
 
     function displayServices(services: ServiceToCompany[]) {
+      console.log("services", services);
+
       const servicesList = document.querySelector(
         ".services-list"
       ) as HTMLUListElement;
       servicesList.innerHTML = "";
 
-      services.forEach((ServiceToCompany: ServiceToCompany, index: number) => {
+      services.forEach((serviceToCompany: ServiceToCompany, index: number) => {
         const listItem = document.createElement("li");
         listItem.classList.add(
           "service-item",
@@ -105,7 +110,7 @@ export class SelectedCompanyActions {
           "border-b",
           "border-gray-600"
         );
-        listItem.setAttribute("data-id", ServiceToCompany.service.id);
+        listItem.setAttribute("data-id", serviceToCompany.service.id);
 
         const serviceHeader = document.createElement("div");
         serviceHeader.classList.add(
@@ -117,18 +122,18 @@ export class SelectedCompanyActions {
 
         const serviceName = document.createElement("h3");
         serviceName.classList.add("service-name", "font-bold");
-        serviceName.textContent = ServiceToCompany.service.name;
-
+        serviceName.textContent = serviceToCompany.service.name;
         const servicePrice = document.createElement("span");
         servicePrice.classList.add("service-price", "text-sm");
-        servicePrice.textContent = ServiceToCompany.service.price;
+
+        servicePrice.textContent = `${serviceToCompany.price}/hr`;
 
         serviceHeader.appendChild(serviceName);
         serviceHeader.appendChild(servicePrice);
 
         const serviceDescription = document.createElement("span");
         serviceDescription.classList.add("service-description", "text-sm");
-        serviceDescription.textContent = ServiceToCompany.service.description;
+        serviceDescription.textContent = serviceToCompany.service.description;
 
         const contentContainer = document.createElement("div");
         contentContainer.classList.add(
@@ -364,8 +369,12 @@ export class SelectedCompanyActions {
           const priceInput = document.createElement(
             "input"
           ) as HTMLInputElement;
-          priceInput.type = "number";
+          priceInput.type = "string";
+          console.log("priceElement", priceElement.textContent);
+
           priceInput.value = priceElement.textContent || "";
+          console.log("priceValue", priceInput.value);
+
           priceInput.classList.add(
             "input-service-price",
             "text-black",
@@ -373,7 +382,8 @@ export class SelectedCompanyActions {
             "p-2",
             "rounded-full",
             "border",
-            "border-gray-400"
+            "border-gray-400",
+            "required"
           );
 
           const descriptionInput = document.createElement(

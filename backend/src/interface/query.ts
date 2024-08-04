@@ -11,3 +11,8 @@ export interface ServiceCompanyQuery {
   page?: number;
   limit?: number;
 }
+
+export interface SupplierCompanyQuery {
+  page?: number;
+  limit?: number;
+}

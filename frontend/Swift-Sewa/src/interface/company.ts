@@ -1,7 +1,6 @@
 import { Category } from "./category";
 import { Service } from "./service";
 
-
 export interface ServiceToCompany {
   id: number;
   price: string;
@@ -31,4 +30,5 @@ export interface Company {
 export interface CompanyApiResponse {
   companies: Company[];
   ServiceToCompany?: ServiceToCompany[];
+  data: Company[];
 }

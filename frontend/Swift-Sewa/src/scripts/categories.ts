@@ -2,6 +2,8 @@ import { Company } from "./../interface/company";
 import { categoryApi } from "../api/categories";
 import { showToast } from "../constants/toastify";
 
+
+
 export class CategoriesActions {
   static categories: () => void = () => {
     let currentPage = 1;
@@ -142,7 +144,7 @@ export class CategoriesActions {
       init(currentPage);
     }
 
-    window.previousPage = previousPage;
+    window.previousPage  = previousPage;
     window.nextPage = nextPage;
     window.gotoPage = gotoPage;
   };

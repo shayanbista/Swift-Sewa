@@ -3,9 +3,11 @@ let categoryId = localStorage.getItem("categoryId");
 let companyId = localStorage.getItem("companyId");
 
 export const supplierApi = {
-  getAll: async () => {
+  getAll: async (data: { page: number; limit: number }) => {
     try {
-      const response = await instance.get(`/suppliers/companies`);
+      const response = await instance.get(
+        `/suppliers/companies?page=${data.page}&limit=${data.limit}`
+      );
       return response.data;
     } catch (error) {
       console.error("Error fetching profile:", error);
@@ -46,7 +48,6 @@ export const supplierApi = {
 
   deleteCompanyService: async (data: any) => {
     try {
-      console.log("data", data);
       const response = await instance.delete(`/suppliers/company-service/`, {
         data: data,
       });

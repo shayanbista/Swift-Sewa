@@ -11,6 +11,7 @@ import { Company } from "../entity/Company";
 import { AppDataSource } from "../dataSource";
 import * as supplierService from "./supplier";
 import { In } from "typeorm";
+import { SupplierCompanyQuery } from "../interface/query";
 
 const bookRepository = AppDataSource.getRepository(Booking);
 const logger = loggerWithNameSpace("BookingService");
@@ -73,16 +74,18 @@ export const createBooking = async (data: booking) => {
   return newBooking;
 };
 
-export const viewBookings = async (id: number) => {
+export const viewBookings = async (id: number, query: SupplierCompanyQuery) => {
   const comaniesIds: number[] = [];
-  const activeCompanies = await supplierService.getCompanies(id);
-  logger.info("activecompanies", activeCompanies.length);
-  if (!activeCompanies || activeCompanies.length == 0)
-    throw new BadRequestError("services dont exist");
+  const activeCompanies = await supplierService.getCompanies(id, query);
+  console.log("activeCompanies", activeCompanies);
 
-  activeCompanies.map((item) => {
-    comaniesIds.push(item.id);
-  });
+  // logger.info("activecompanies", activeCompanies.length);
+  // if (!activeCompanies || activeCompanies.length == 0)
+  //   throw new BadRequestError("services dont exist");
+
+  // activeCompanies.map((item) => {
+  //   comaniesIds.push(item.id);
+  // });
 
   const bookings = await findBookings(comaniesIds);
   if (bookings.length === 0 || !bookings) {

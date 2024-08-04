@@ -1,5 +1,5 @@
 declare global {
-  interface Window {
+  export interface Window {
     previousPage: () => void;
     nextPage: () => void;
     gotoPage: (page: number) => void;

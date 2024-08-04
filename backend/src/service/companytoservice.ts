@@ -18,7 +18,6 @@ export const deleteCompanyService = async (ids: {
     .where("company_id = :companyId", { companyId: ids.companyId })
     .andWhere("service_id = :serviceId", { serviceId: ids.serviceId })
     .execute();
-    
 };
 
 export const findByService = async (query: ServiceCompanyQuery) => {
@@ -31,6 +30,7 @@ export const findByService = async (query: ServiceCompanyQuery) => {
       },
       company: {
         location: queryLocation,
+        isPending: false,
       },
     },
     relations: ["company"],

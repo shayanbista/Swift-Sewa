@@ -38,9 +38,7 @@ export class SelectedSupplierCompanyActions {
         const serviceCard = `
       <div class="flex justify-center  h-60 -mt-32">
       <div class=" p-2 w-2/3  rounded-lg shadow-md flex   ">
-        <a
-          href="#"
-          class="flex flex-col pl-6 bg-white border border-gray-200 rounded-lg shadow md:flex-row w-full hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+        <div  class="flex flex-col pl-6 bg-white border border-gray-200 rounded-lg shadow md:flex-row w-full hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
         >
           
           <div
