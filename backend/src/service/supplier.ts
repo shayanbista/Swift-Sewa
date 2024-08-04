@@ -157,19 +157,35 @@ export const findAll = async (userId: number, query: SupplierCompanyQuery) => {
   const { page, limit } = query;
   const offset = (page! - 1) * limit!;
 
-  const [companies, total] = await companyRepository.findAndCount({
-    where: { user: { id: userId }, isPending: false },
-    skip: offset,
-    take: limit,
-  });
+  if (limit === -1) {
+    const [companies, total] = await companyRepository.findAndCount({
+      where: { user: { id: userId }, isPending: false },
+    });
 
-  return {
-    data: companies,
-    totalPages: Math.ceil(total / limit!),
-    currentPage: page,
-    pageSize: limit,
-    totalItems: total,
-  };
+    return {
+      data: companies,
+      totalPages: 1,
+      currentPage: 1,
+      pageSize: total,
+      totalItems: total,
+    };
+  } else {
+    const offset = (page! - 1) * limit!;
+
+    const [companies, total] = await companyRepository.findAndCount({
+      where: { user: { id: userId }, isPending: false },
+      skip: offset,
+      take: limit,
+    });
+
+    return {
+      data: companies,
+      totalPages: Math.ceil(total / limit!),
+      currentPage: page,
+      pageSize: limit,
+      totalItems: total,
+    };
+  }
 };
 
 const findByCategory = async (id: number, query: CategoryCompanyQuery) => {
@@ -287,7 +303,6 @@ export const getCompanies = async (id: number, query: SupplierCompanyQuery) => {
 
   return companies;
 };
-
 
 export const getCompany = async (id: number, userId: number) => {
   const company = await findByCompanyId(id, userId);

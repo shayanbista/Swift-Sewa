@@ -12,6 +12,7 @@ import { AppDataSource } from "../dataSource";
 import * as supplierService from "./supplier";
 import { In } from "typeorm";
 import { SupplierCompanyQuery } from "../interface/query";
+import { string } from "joi";
 
 const bookRepository = AppDataSource.getRepository(Booking);
 const logger = loggerWithNameSpace("BookingService");
@@ -45,17 +46,40 @@ const create = async (data: booking) => {
   return booking;
 };
 
-const findBookings = async (companyIds: number[]) => {
-  const bookings = await bookRepository.find({
-    where: {
-      company: {
-        id: In(companyIds),
-      },
-      isApproved: false,
-    },
-    relations: ["company", "serviceToCompany.service"],
+// const findBookings = async (companyIds: number[]) => {
+//   const bookings = await bookRepository.find({
+//     where: {
+//       company: {
+//         id: In(companyIds),
+//       },
+//       isApproved: false,
+//     },
+//     relations: ["company", "serviceToCompany.service"],
+//   });
+//   return bookings;
+// };
+
+export const findBookings = async (
+  companyIds: number[],
+  query: SupplierCompanyQuery
+) => {
+  const { page, limit } = query;
+  const offset = (page! - 1) * limit!;
+
+  const [bookings, total] = await bookRepository.findAndCount({
+    where: { company: { id: In(companyIds) } },
+    relations: ["serviceToCompany", "serviceToCompany.service"],
+    skip: offset,
+    take: limit,
   });
-  return bookings;
+
+  return {
+    data: bookings,
+    totalPages: Math.ceil(total / limit!),
+    currentPage: page,
+    pageSize: limit,
+    totalItems: total,
+  };
 };
 
 export const createBooking = async (data: booking) => {
@@ -76,27 +100,33 @@ export const createBooking = async (data: booking) => {
 
 export const viewBookings = async (id: number, query: SupplierCompanyQuery) => {
   const comaniesIds: number[] = [];
-  const activeCompanies = await supplierService.getCompanies(id, query);
-  console.log("activeCompanies", activeCompanies);
+  const query1: SupplierCompanyQuery = { ...query, limit: -1 };
 
-  // logger.info("activecompanies", activeCompanies.length);
-  // if (!activeCompanies || activeCompanies.length == 0)
-  //   throw new BadRequestError("services dont exist");
+  const activeCompanies = await supplierService.getCompanies(id, query1);
 
-  // activeCompanies.map((item) => {
-  //   comaniesIds.push(item.id);
-  // });
+  logger.info("activecompanies", activeCompanies.totalPages);
 
-  const bookings = await findBookings(comaniesIds);
-  if (bookings.length === 0 || !bookings) {
+  if (!activeCompanies || activeCompanies.data.length == 0)
+    throw new BadRequestError("services dont exist");
+
+  activeCompanies.data.map((item) => {
+    comaniesIds.push(item.id);
+  });
+
+  const bookings = await findBookings(comaniesIds, query);
+  if (bookings.data.length === 0 || !bookings) {
     logger.error("no bookings found");
     throw new BadRequestError("bookings not found");
   }
+
   return bookings;
 };
 
-export const verifyBooking = async (id: number, status: boolean) => {
+export const verifyUserBooking = async (id: number, status: boolean) => {
+  console.log("id", id);
   const bookedData = await findBookingById(id);
+  console.log("bookedData", bookedData);
+
   if (!bookedData) throw new BadRequestError("booking not found");
 
   if (!status) {

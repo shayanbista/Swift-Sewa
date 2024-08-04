@@ -33,7 +33,7 @@ export const viewBookings = async (
     console.log("query", req.query);
     logger.info("booking successful");
     const bookings = await bookingService.viewBookings(supplierId, req.query);
-    // res.status(httpStatusCodes.OK).json({ bookings });
+    res.status(httpStatusCodes.OK).json({ bookings });
   } catch (err) {
     next(err);
   }
@@ -46,9 +46,9 @@ export const verifyBooking = async (
 ) => {
   try {
     const { id } = req.params;
-    const status = req.body.isApproved;
-    const booking = await bookingService.verifyBooking(id, status);
-    res.status(200).json(booking);
+    const status = req.body.isApproved
+    const booking = await bookingService.verifyUserBooking(id, status);
+    res.status(httpStatusCodes.OK).json(booking);
   } catch (err) {
     next(err);
   }
