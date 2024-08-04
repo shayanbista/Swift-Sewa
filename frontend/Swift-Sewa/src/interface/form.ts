@@ -20,3 +20,21 @@ export interface CustomFormData {
   closingTime: string;
   categoryId: string;
 }
+
+export interface SupplierRegistrationFormData {
+  serviceIds: string[];
+  servicePrices: string[];
+  photo: File;
+  panPhoto: File;
+  name: string;
+  phoneNumber: string;
+  address: string;
+  location: string;
+  description: string;
+  openingTime: string;
+  closingTime: string;
+  categoryId: string;
+  availableDays?: string;
+  companyDescription: string;
+  userId: string;
+}

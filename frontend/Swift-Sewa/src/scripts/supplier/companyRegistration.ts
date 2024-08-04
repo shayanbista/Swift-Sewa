@@ -4,12 +4,14 @@ import { supplierApi } from "../../api/supplier";
 import { displayResponseErrors } from "../../utils/errorHandler";
 import axios from "axios";
 import { showToast } from "../../constants/toastify";
+import { Service } from "../../interface/service";
+import { Category } from "../../interface/category";
+import { SupplierRegistrationFormData } from "../../interface/form";
 
 export class CompanyRegistrationAction {
   static registration: () => void = async () => {
     const submitButton = document.getElementById("submit") as HTMLButtonElement;
-    let categoriesArray: { id: string; name: string; services: string[] }[] =
-      [];
+    let categoriesArray: Category[] = [];
 
     // Fetch categories and their related services
     async function fetchCategoriesServices() {
@@ -23,27 +25,19 @@ export class CompanyRegistrationAction {
 
         categorySelect.innerHTML = '<option value="">Select Category</option>';
 
-        data.message.forEach(
-          (item: { id: string; name: string; services: string[] }) => {
-            const option = document.createElement(
-              "option"
-            ) as HTMLOptionElement;
-            option.value = item.id;
-            option.textContent = item.name;
-            categorySelect.appendChild(option);
-            categoriesArray.push({
-              id: item.id,
-              name: item.name,
-              services: item.services,
-            });
-          }
-        );
+        data.message.forEach((item: Category) => {
+          const option = document.createElement("option") as HTMLOptionElement;
+          option.value = item.id;
+          option.textContent = item.name;
+          categorySelect.appendChild(option);
+          categoriesArray.push(item);
+        });
       } catch (error) {
         throw error;
       }
     }
 
-    function convertTime(time: string) {
+    function convertTime(time: string): string {
       let [hours, minutes] = time.split(":");
       let period = "AM";
 
@@ -58,11 +52,10 @@ export class CompanyRegistrationAction {
         hourTime = 12;
       }
 
-      return `${hours}:${minutes} ${period}`;
+      return `${hourTime}:${minutes} ${period}`;
     }
 
     function logSelectedCategory() {
-      const services = [];
       const categorySelect = document.getElementById(
         "categoryId"
       ) as HTMLSelectElement;
@@ -70,9 +63,9 @@ export class CompanyRegistrationAction {
         categorySelect.options[categorySelect.selectedIndex];
 
       const selectedCategory = categoriesArray.find(
-        (category: { id: string; name: string; services: string[] }) =>
-          category.name === `${selectedOption.textContent}`
+        (category) => category.name === `${selectedOption.textContent}`
       );
+      console.log("selectedCategory", selectedCategory);
 
       const serviceOptionsContainer = document.getElementById(
         "serviceOptions"
@@ -80,12 +73,7 @@ export class CompanyRegistrationAction {
       serviceOptionsContainer.innerHTML = "";
 
       if (selectedCategory) {
-        selectedCategory.services.forEach((service: any) => {
-          services.push({
-            id: service.id,
-            name: service.name,
-          });
-
+        selectedCategory.services.forEach((service) => {
           const label = document.createElement("label") as HTMLLabelElement;
           label.classList.add("inline-flex", "items-center", "block", "mt-2");
 
@@ -105,7 +93,7 @@ export class CompanyRegistrationAction {
           priceInput.placeholder = "Rs:";
           priceInput.type = "number";
           priceInput.name = `price-${service.id}`;
-          priceInput.value = service.price;
+          priceInput.value = service.price?.toString() || "";
           priceInput.disabled = true;
           priceInput.classList.add(
             "ml-2",
@@ -138,81 +126,62 @@ export class CompanyRegistrationAction {
       .getElementById("categoryId")
       ?.addEventListener("change", logSelectedCategory);
 
-    fetchCategoriesServices();
+    await fetchCategoriesServices();
 
     submitButton.onclick = async (e) => {
       e.preventDefault();
 
-      const formData: { [key: string]: any } = {};
-
-      formData.serviceIds = [];
-      formData.servicePrices = [];
-
-      formData.photo = document.getElementById("photo") as HTMLInputElement;
-      formData.photo = formData.photo.files[0];
-
-      formData.panPhoto = document.getElementById(
+      const photoInput = document.getElementById("photo") as HTMLInputElement;
+      const panPhotoInput = document.getElementById(
         "panPhoto"
       ) as HTMLInputElement;
 
-      formData.panPhoto = formData.panPhoto.files[0];
+      if (!photoInput.files || !panPhotoInput.files) {
+        showToast("Please upload required photos", 3000, "red");
+        return;
+      }
 
-      formData.name = (
-        document.getElementById("name") as HTMLInputElement
-      ).value;
+      const formData: SupplierRegistrationFormData = {
+        serviceIds: [],
+        servicePrices: [],
+        photo: photoInput.files[0],
+        panPhoto: panPhotoInput.files[0],
+        name: (document.getElementById("name") as HTMLInputElement).value,
+        phoneNumber: (
+          document.getElementById("phoneNumber") as HTMLInputElement
+        ).value,
+        address: (document.getElementById("address") as HTMLInputElement).value,
+        location: (document.getElementById("location") as HTMLSelectElement)
+          .value,
+        description: (
+          document.getElementById("company-description") as HTMLInputElement
+        ).value,
+        openingTime: convertTime(
+          (document.getElementById("openingTime") as HTMLInputElement).value
+        ),
+        closingTime: convertTime(
+          (document.getElementById("closingTime") as HTMLInputElement).value
+        ),
+        categoryId: (document.getElementById("categoryId") as HTMLSelectElement)
+          .value,
+        companyDescription: (
+          document.getElementById("company-description") as HTMLInputElement
+        ).value,
+        userId: Cookies.get("userId") || "",
+      };
 
-      formData.phoneNumber = (
-        document.getElementById("phoneNumber") as HTMLInputElement
-      ).value;
-
-      formData.address = (
-        document.getElementById("address") as HTMLInputElement
-      ).value;
-
-      formData.location = (
-        document.getElementById("location") as HTMLSelectElement
-      ).value;
-
-      formData.description = (
-        document.getElementById("company-description") as HTMLInputElement
-      ).value;
-
-      let openingTime = document.getElementById(
-        "openingTime"
-      ) as HTMLInputElement;
-
-      let convertedopeningTime = convertTime(openingTime.value);
-      formData.openingTime = convertedopeningTime;
-
-      let closingTime = document.getElementById(
-        "closingTime"
-      ) as HTMLInputElement;
-
-      let convertedTime = convertTime(closingTime.value);
-
-      formData.closingTime = convertedTime;
-
-      // Category
-      formData.categoryId = (
-        document.getElementById("categoryId") as HTMLSelectElement
-      ).value;
-
-      // Services
       const serviceCheckboxes = document.querySelectorAll(
         'input[name="serviceId[]"]:checked'
       );
-
-      serviceCheckboxes.forEach((checkbox: any) => {
+      serviceCheckboxes.forEach((checkbox) => {
         const priceInput = document.querySelector(
-          `input[name="price-${checkbox.value}"]`
+          `input[name="price-${(checkbox as HTMLInputElement).value}"]`
         ) as HTMLInputElement;
-        formData.serviceIds.push(checkbox.value);
+        formData.serviceIds.push((checkbox as HTMLInputElement).value);
         formData.servicePrices.push(`${priceInput.value}`);
       });
 
       const registrationData = new FormData();
-
-      // Append basic information
       registrationData.append("photo", formData.photo);
       registrationData.append("pan-photo", formData.panPhoto);
       registrationData.append("name", formData.name);
@@ -221,35 +190,18 @@ export class CompanyRegistrationAction {
       registrationData.append("location", formData.location);
       registrationData.append("openingTime", formData.openingTime);
       registrationData.append("closingTime", formData.closingTime);
-      registrationData.append("aviliableDays", formData.availableDays);
+      registrationData.append("availableDays", formData.availableDays || "");
       registrationData.append(
         "companyDescription",
         formData.companyDescription
       );
-
-      console.log("formdata", formData.serviceIds);
-
-      // Append category
       registrationData.append("categoryId", formData.categoryId);
       registrationData.append(
-        `serviceIds`,
+        "serviceIds",
         JSON.stringify(formData.serviceIds)
       );
-      registrationData.append(`price`, JSON.stringify(formData.servicePrices));
-
-      // Append services
-      // formData.serviceIds.forEach((serviceId: string) => {
-      //   registrationData.append(`serviceIds`, serviceId);
-      // });
-
-      // // Append servicePrices
-      // formData.servicePrices.forEach((price: string) => {
-      //   registrationData.append(`price`, price);
-      // });
-
-      // getting id of user from cookie
-      const userId = Cookies.get("userId")!;
-      registrationData.append("userId", userId);
+      registrationData.append("price", JSON.stringify(formData.servicePrices));
+      registrationData.append("userId", formData.userId);
 
       showToast("Please wait while we process your request", 3000, "blue");
 

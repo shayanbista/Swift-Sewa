@@ -1,7 +1,8 @@
+import { Service } from "./service";
+
 export interface Category {
-  id: number;
+  id: string;
   name: string;
   description: string;
-  deletedAt: null | string;
-  services: string[];
+  services: Service[];
 }
