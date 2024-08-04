@@ -1,4 +1,4 @@
-import { SupplierRegistrationFormData } from "../interface/form";
+import { UpdateFormData } from "../interface/form";
 import { instance } from "./base";
 let categoryId = localStorage.getItem("categoryId");
 let companyId = localStorage.getItem("companyId");
@@ -36,7 +36,7 @@ export const supplierApi = {
     }
   },
 
-  put: async (data: FormData) => {
+  put: async (data: UpdateFormData) => {
     try {
       const response = await instance.put(`/suppliers/${companyId}`, data);
       return response.data;
@@ -46,7 +46,10 @@ export const supplierApi = {
     }
   },
 
-  deleteCompanyService: async (data: number[]) => {
+  deleteCompanyService: async (data: {
+    companyId: string | null;
+    serviceId: string | null;
+  }) => {
     try {
       const response = await instance.delete(`/suppliers/company-service/`, {
         data: data,

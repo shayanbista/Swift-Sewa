@@ -38,3 +38,16 @@ export interface SupplierRegistrationFormData {
   companyDescription: string;
   userId: string;
 }
+
+export interface UpdateFormData {
+  name: string;
+  phoneNumber: string;
+  address: string;
+  location: string;
+  serviceIds: string[];
+  price: string[];
+  openingTime: string;
+  closingTime: string;
+  description: string[];
+  isActive: boolean;
+}

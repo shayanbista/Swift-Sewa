@@ -1,4 +1,5 @@
 import { serviceApi } from "../../api/services";
+import { showToast } from "../../constants/toastify";
 import { SearchResultItem } from "../../interface/search";
 
 export class UserSearchActions {
@@ -11,17 +12,20 @@ export class UserSearchActions {
       let hashWithoutHash = hash.substring(1);
       let parts = hashWithoutHash.split("?");
       let query = parts[1];
+      try {
+        const getSearchedQuery = await serviceApi.getSearchedQuery(
+          query,
+          page,
+          limit
+        );
 
-      const getSearchedQuery = await serviceApi.getSearchedQuery(
-        query,
-        page,
-        limit
-      );
+        await renderCategories(getSearchedQuery);
+        updatePagination(getSearchedQuery.totalPages);
+      } catch (err) {
+        showToast("notfound", 2000, "red");
 
-      console.log("data", getSearchedQuery);
-
-      await renderCategories(getSearchedQuery);
-      updatePagination(getSearchedQuery.totalPages);
+        console.log("err", err);
+      }
     };
 
     init();

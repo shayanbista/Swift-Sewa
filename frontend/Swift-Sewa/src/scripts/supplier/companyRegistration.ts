@@ -212,7 +212,7 @@ export class CompanyRegistrationAction {
       } catch (err) {
         if (axios.isAxiosError(err)) {
           const errorMessage = err.response?.data?.message || err.message;
-          setTimeout(() => showToast(errorMessage, 3000, "red"), 3000); // displayResponseErrors(errorMessage);
+          setTimeout(() => showToast(errorMessage, 3000, "red"), 3000);
         } else if (err instanceof Error) {
           showToast(err.message, 3000, "red");
           displayResponseErrors(err.message);

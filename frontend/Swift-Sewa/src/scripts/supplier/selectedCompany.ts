@@ -1,9 +1,10 @@
-import { ServiceToCompany } from "./../../interface/company";
+import { Company, ServiceToCompany } from "./../../interface/company";
 import { Service } from "./../../interface/service";
 
 import { categoryApi } from "../../api/categories";
 import { supplierApi } from "../../api/supplier";
-import { required } from "joi";
+import { number, string } from "joi";
+import { UpdateFormData } from "../../interface/form";
 
 export class SelectedCompanyActions {
   static selected: () => void = async () => {
@@ -440,7 +441,7 @@ export class SelectedCompanyActions {
         "status",
       ];
 
-      const updatedData = {
+      const updatedData: UpdateFormData = {
         name: "",
         phoneNumber: "",
         address: "",
@@ -467,6 +468,7 @@ export class SelectedCompanyActions {
               break;
             case "address":
               updatedData.address = inputElement.value;
+
               break;
             case "openingTime":
               updatedData.openingTime = inputElement.value;
@@ -522,10 +524,12 @@ export class SelectedCompanyActions {
       }
     }
 
-    async function renderContent(data: any) {
+    async function renderContent(data: { companies: Company }) {
       const image = document.getElementById(
         "company-image"
       ) as HTMLImageElement;
+
+      console.log("Data", data.companies.photo);
 
       image.src = data.companies.photo;
 
@@ -554,14 +558,18 @@ export class SelectedCompanyActions {
       const location = document.querySelector(".location") as HTMLSpanElement;
       location.textContent = data.companies.location;
 
-      displayServices(data.companies.ServiceToCompany);
+      const categoryName = document.getElementById(
+        "category-name"
+      ) as HTMLSpanElement;
 
-      const categoryDescriptionElement = document.getElementsByClassName(
+      const categoryDescription = document.getElementById(
         "category-description"
-      )[0];
-      if (categoryDescriptionElement) {
-        const categoryDescription = categoryDescriptionElement.innerHTML;
-      }
+      ) as HTMLSpanElement;
+
+      categoryName.textContent = data.companies.category.name;
+      categoryDescription.textContent = data.companies.category.description;
+
+      displayServices(data.companies.ServiceToCompany);
     }
 
     fetchData();

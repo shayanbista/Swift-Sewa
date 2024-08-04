@@ -82,8 +82,8 @@ export class LoginActions {
             window.location.href = "#/user/dashboard/";
             break;
           case "admin":
-            showToast("logged-in successfully", 3000, "red");
-            window.location.href = "#/admin/dashboard/";
+            showToast("logged-in successfully", 3000, "green");
+            window.location.href = "#/admin/dashboard/users/";
             break;
           case "supplier":
             window.location.href = "#/supplier/dashboard/";

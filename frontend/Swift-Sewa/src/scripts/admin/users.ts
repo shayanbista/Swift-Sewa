@@ -18,6 +18,7 @@ export class AdminDashboardUsers {
     verifyCompanies.onclick = () => {
       window.location.href = "#/admin/companies/pending/";
     };
+
     try {
       async function init() {
         const users = await userApi.getAll();
@@ -40,7 +41,7 @@ export class AdminDashboardUsers {
             <td class="border px-4 py-2 text-center">${user.profile.name}</td>
             <td class="border px-4 py-2 text-center">${user.email}</td>
             <td class="border px-4 py-2 text-center">
-              <button id="delete-button" data-user-id="${user.id}" class="text-red-500">Delete</button>
+              <button class="delete-button text-red-500" data-user-id="${user.id}">Delete</button>
             </td>
           `;
           usersTableData.appendChild(row);
@@ -48,21 +49,29 @@ export class AdminDashboardUsers {
 
         usersTableData.addEventListener("click", async (event) => {
           const target = event.target as HTMLElement;
-          const deleteButton = target.closest("#delete-button");
+          const deleteButton = target.closest(".delete-button");
           if (deleteButton) {
             const userId = deleteButton.getAttribute("data-user-id");
             if (userId) {
               const deletedStatus = await adminApi.deleteUser(Number(userId));
               if (deletedStatus === 204) {
                 showToast("User deleted successfully", 3000, "green");
-                const updatedUsers = await userApi.getAll();
-                await renderTable(updatedUsers);
+                removeTableRow(userId);
               } else {
                 showToast("User deletion failed", 3000, "red");
               }
             }
           }
         });
+      }
+
+      function removeTableRow(userId: string) {
+        const row = document
+          .querySelector(`button[data-user-id="${userId}"]`)
+          ?.closest("tr");
+        if (row) {
+          row.remove();
+        }
       }
     } catch (err) {
       console.log("err", err);
