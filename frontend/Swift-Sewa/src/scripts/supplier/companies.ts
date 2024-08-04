@@ -15,7 +15,6 @@ export class CompaniesActions {
           limit,
         };
         const response = await supplierApi.getAll(data);
-        console.log("response", response);
 
         // Access the nested properties
         const {
@@ -23,8 +22,6 @@ export class CompaniesActions {
           currentPage: currentPageFromResponse,
           data: companies,
         } = response.companies;
-        console.log("totalPages", totalPages);
-        console.log("currentPageFromResponse", currentPageFromResponse);
 
         await renderContent(companies);
         updatePagination(totalPages);

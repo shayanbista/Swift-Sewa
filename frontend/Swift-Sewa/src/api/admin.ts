@@ -1,3 +1,4 @@
+import { getAllUsers } from "./../../../../backend/src/controller/admin";
 import { instance } from "./base";
 
 export const adminApi = {
@@ -5,6 +6,17 @@ export const adminApi = {
     try {
       const response = await instance.delete(`/users/${id}`);
       return response.status;
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+      throw error;
+    }
+  },
+  getAllUsers: async (data: { page: number; limit: number }) => {
+    try {
+      const response = await instance.get(
+        `/users/all?page=${data.page}&limit=${data.limit}`
+      );
+      return response.data;
     } catch (error) {
       console.error("Error fetching profile:", error);
       throw error;
