@@ -11,7 +11,5 @@ export const authApi = {
     }
   },
 
-
-
   
 };

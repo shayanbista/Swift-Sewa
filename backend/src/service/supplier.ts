@@ -149,9 +149,6 @@ export const findByCompanyId = async (id: number, userId: number) => {
   });
 };
 
-// export const findAll = async (userId: number, query: SupplierCompanyQuery) => {
-//   return await companyRepository.find({ where: { user: { id: userId } } });
-// };
 
 export const findAll = async (userId: number, query: SupplierCompanyQuery) => {
   const { page, limit } = query;

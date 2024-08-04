@@ -1,4 +1,5 @@
 import { bookApi } from "../../api/booking";
+import { showToast } from "../../constants/toastify";
 
 export class UserBookingActions {
   static userBooking: () => void = async () => {
@@ -37,10 +38,17 @@ export class UserBookingActions {
         companyServiceId: companyServiceId,
       };
 
+      console.log("Data", data);
+
       try {
         const userBooking = await bookApi.post(data);
+        showToast(
+          "booking successful please wait until the company contacts you",
+          3000,
+          "greed"
+        );
       } catch (err) {
-        console.log(err);
+        showToast("somethingwent wrong try again later", 3000, "red");
       }
     });
   };

@@ -17,6 +17,7 @@ export const createBooking = async (
 
     data.userId = userId;
     const booking = await bookingService.createBooking(data);
+    logger.info("booking successful");
     res.status(httpStatusCodes.CREATED).json("successful");
   } catch (err) {
     next(err);
@@ -46,7 +47,7 @@ export const verifyBooking = async (
 ) => {
   try {
     const { id } = req.params;
-    const status = req.body.isApproved
+    const status = req.body.isApproved;
     const booking = await bookingService.verifyUserBooking(id, status);
     res.status(httpStatusCodes.OK).json(booking);
   } catch (err) {

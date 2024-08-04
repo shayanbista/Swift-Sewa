@@ -1,53 +1,5 @@
 import Joi from "joi";
 
-// Define the schema for companyData
-// export const companyBodySchema = Joi.object({
-//   name: Joi.string().required().messages({
-//     "any.required": "Name is required",
-//   }),
-//   phoneNumber: Joi.string()
-//     .pattern(/^[0-9]+$/)
-//     .required()
-//     .messages({
-//       "string.pattern.base": "Phone number must contain only digits",
-//       "any.required": "Phone number is required",
-//     }),
-//   address: Joi.string().required().messages({
-//     "any.required": "Address is required",
-//   }),
-//   location: Joi.string().required().messages({
-//     "any.required": "Location is required",
-//   }),
-
-//   categoryId: Joi.string().required().messages({
-//     "any.required": "Please select a category",
-//   }),
-
-//   price: Joi.alternatives()
-//     .try(Joi.array().items(Joi.string()).required(), Joi.string().required())
-//     .messages({
-//       "alternatives.match":
-//         "Please provide the price for each selected service.",
-//       "array.base": "Price must be an array of strings.",
-//       "string.base": "Price must be a string.",
-//     }),
-
-//   openingTime: Joi.string().required().messages({
-//     "any.required": "Opening time is required",
-//   }),
-//   closingTime: Joi.string().required().messages({
-//     "any.required": "Closing time is required",
-//   }),
-//   companyDescription: Joi.string().optional().messages({
-//     "any.required": "Description is required",
-//   }),
-
-//   serviceIds: Joi.alternatives().try(Joi.required()).messages({
-//     "any.required": "ServiceId is required",
-//   }),
-// }).options({
-//   stripUnknown: true,
-// });
 
 export const companyBodySchema = Joi.object({
   name: Joi.string().required().messages({

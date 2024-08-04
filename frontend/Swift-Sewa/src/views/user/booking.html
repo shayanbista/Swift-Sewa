@@ -1,16 +1,16 @@
 <body>
   <section class="signup-section">
-    <div class="container mx-auto bg-orange-100 flex justify-center pt-6 pb-16">
-      <div class="bg-gray-100 border border-gray-200 rounded-lg">
-        <div class="flex flex-col justify-center h-full p-6">
+    <div class="container bg-orange-100 flex justify-center py-10 min-h-screen">
+      <div class="bg-orange-50 shadow-md rounded-lg w-1/3">
+        <div class="flex flex-col justify-center h-max p-6">
           <div class="text-center">
-            <p class="mt-3 text-1xl text-orange-300">
+            <p class="mt-3 text-lg text-orange-800">
               Book Yourself An Amazing Service from
               <span class="text-orange-500">Swift</span
               ><span class="text-blue-400">Sewa</span>
             </p>
           </div>
-          <form id="signupform" class="mt-8">
+          <form id="signupform" class="mt-5">
             <div class="mb-5">
               <label
                 for="usernameInput"
@@ -20,9 +20,9 @@
               >
               <input
                 type="text"
-                class="w-full mt-1 py-2.5 rounded border-transparent placeholder:text-sm text-bl"
+                class="w-full max-w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition duration-300"
                 id="usernameInput"
-                placeholder="Enter your contact name"
+                placeholder="John Doe"
                 required
               />
               <p
@@ -34,9 +34,9 @@
               <label for="addressInput" class="text-bl">Address</label>
               <input
                 type="text"
-                class="w-full mt-1 py-2.5 rounded border-transparent placeholder:text-sm text-bl"
+                class="w-full max-w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition duration-300"
                 id="addressInput"
-                placeholder="Enter your address"
+                placeholder="Dilli Bazar, Kathmandu"
                 required
               />
               <p
@@ -45,13 +45,13 @@
               ></p>
             </div>
 
-            <div class="mb-5 py-2.5">
+            <div class="py-2.5">
               <label for="phoneNumberInput" class="text-bl">Phone Number</label>
               <input
                 type="tel"
-                class="w-full mt-1 py-2.5 rounded border-transparent placeholder:text-sm text-bl"
+                class="w-full max-w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition duration-300"
                 id="phoneNumberInput"
-                placeholder="Enter your phone number"
+                placeholder="98********"
                 required
               />
               <p
@@ -60,11 +60,11 @@
               ></p>
             </div>
 
-            <div class="mb-5 py-2.5">
+            <div class="py-2.5">
               <label for="dateInput" class="text-bl">Date</label>
               <input
                 type="date"
-                class="w-full mt-1 py-2.5 rounded border-transparent placeholder:text-sm text-bl"
+                class="w-full max-w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition duration-300"
                 id="dateInput"
                 required
               />
@@ -74,11 +74,11 @@
               ></p>
             </div>
 
-            <div class="mb-5 py-2.5">
+            <div class="mb-3 py-2.5">
               <textarea
                 id="textareaInput"
-                class="w-full"
-                placeholder="Please provice proper information about the service"
+                class="w-full h-28 max-w-full p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition duration-300"
+                placeholder="Description about Service"
                 required
               ></textarea>
               <p
@@ -87,10 +87,10 @@
               ></p>
             </div>
             <div id="error-container" class="text-red-600"></div>
-            <div class="my-5 text-center">
+            <div class="text-center">
               <button
                 type="submit"
-                class="btn w-full bg-bl text-gray-900 font-medium border-transparent hover:bg-cyan-300 hover:-translate-y-1.5 duration-500 ease"
+                class="btn w-36 h-8 bg-bl text-gray-900 font-medium border border-solid border-orange-800 rounded-md hover:bg-white hover:bg-opacity-90 hover:-translate-y-1.5 duration-500 ease"
               >
                 Book Now
               </button>

@@ -4,7 +4,6 @@ import { supplierApi } from "../../api/supplier";
 import { displayResponseErrors } from "../../utils/errorHandler";
 import axios from "axios";
 import { showToast } from "../../constants/toastify";
-import { Service } from "../../interface/service";
 import { Category } from "../../interface/category";
 import { SupplierRegistrationFormData } from "../../interface/form";
 
@@ -12,8 +11,6 @@ export class CompanyRegistrationAction {
   static registration: () => void = async () => {
     const submitButton = document.getElementById("submit") as HTMLButtonElement;
     let categoriesArray: Category[] = [];
-
-    // Fetch categories and their related services
     async function fetchCategoriesServices() {
       try {
         categoriesArray = [];
