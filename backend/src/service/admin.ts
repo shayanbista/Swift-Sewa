@@ -2,6 +2,7 @@ import * as supplierService from "./supplier";
 import loggerWithNameSpace from "../utils/logger";
 import { BadRequestError } from "../error/BadRequestError";
 import * as userService from "./user";
+import { UserQuery } from "../interface/query";
 
 const logger = loggerWithNameSpace("AdminService");
 
@@ -47,9 +48,10 @@ export const verifyCompany = async (companyId: number, isAllowed: boolean) => {
   }
 };
 
-export const getUsers = async () => {
-  const users = await userService.findAll();
-  if (!users || users.length === 0) throw new BadRequestError("no users found");
+export const getUsers = async (query: UserQuery) => {
+  const users = await userService.getAllUsers(query);
+  if (!users || users.data.length === 0)
+    throw new BadRequestError("no users found");
   return users;
 };
 

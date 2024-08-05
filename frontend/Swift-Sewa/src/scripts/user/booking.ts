@@ -1,8 +1,16 @@
 import { bookApi } from "../../api/booking";
+import { roleAuthApi } from "../../api/me";
 import { showToast } from "../../constants/toastify";
 
 export class UserBookingActions {
   static userBooking: () => void = async () => {
+    const role = await roleAuthApi.getMe();
+
+    if (role.role[0] != "user") {
+      showToast("access denied", 2000, "red");
+      window.location.href = "";
+    }
+
     const hash = window.location.hash.substring(1);
     const companyId = hash.split(":")[1].split("/")[0];
     const companyServiceId = hash.split(":")[2].split("/")[0];
@@ -10,7 +18,7 @@ export class UserBookingActions {
     const signupform = document.getElementById("signupform") as HTMLFormElement;
 
     signupform.addEventListener("submit", async function (event) {
-      event.preventDefault(); // Prevent the form from submitting normally
+      event.preventDefault();
 
       // Accessing the input values
       const contactName = document.getElementById(

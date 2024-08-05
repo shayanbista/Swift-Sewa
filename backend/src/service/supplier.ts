@@ -149,7 +149,6 @@ export const findByCompanyId = async (id: number, userId: number) => {
   });
 };
 
-
 export const findAll = async (userId: number, query: SupplierCompanyQuery) => {
   const { page, limit } = query;
   const offset = (page! - 1) * limit!;
@@ -285,18 +284,8 @@ export const getCompanies = async (id: number, query: SupplierCompanyQuery) => {
 
   console.log("companies", companies);
 
-  // if (companies.length === 0) throw new BadRequestError("companies dont exist");
-
-  // companies.forEach((company) => {
-  //   if (company.isPending == false) {
-  //     activeCompanies.push(company);
-  //   }
-  // });
-
-  // if (activeCompanies.length === 0) {
-  //   throw new BadRequestError(
-  //     "the company has not been verified by admin please try again later"
-  //   );
+  if (companies.data.length === 0)
+    throw new BadRequestError("companies dont exist");
 
   return companies;
 };

@@ -1,9 +1,19 @@
 import { adminApi } from "../../api/admin";
+import { roleAuthApi } from "../../api/me";
 import { showToast } from "../../constants/toastify";
 import { User } from "../../interface/user";
 
 export class AdminDashboardUsers {
   static adminDashboardUsers: () => void = async () => {
+    const role = await roleAuthApi.getMe();
+
+    if (role.role[0] != "admin") {
+      showToast("access denied", 2000, "red");
+      window.location.href = "";
+    }
+
+    console.log("welcome admin");
+
     let currentPage = 1;
     const limit = 5;
 

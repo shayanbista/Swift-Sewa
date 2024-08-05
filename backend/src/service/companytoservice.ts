@@ -1,4 +1,4 @@
-import { Like, QueryBuilder } from "typeorm";
+import { ILike, QueryBuilder } from "typeorm";
 import { AppDataSource } from "../dataSource";
 import { ServiceToCompany } from "../entity/Company_Service";
 import { ServiceCompanyQuery } from "../interface/query";
@@ -26,7 +26,7 @@ export const findByService = async (query: ServiceCompanyQuery) => {
   const [result, total] = await companyToServiceRepository.findAndCount({
     where: {
       service: {
-        name: query.service,
+        name: ILike(`%${query.service}%`),
       },
       company: {
         location: queryLocation,

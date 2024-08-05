@@ -65,22 +65,6 @@ export class UserDashboardActions {
     category3.onclick = handleCategoryClick;
     category4.onclick = handleCategoryClick;
 
-    const service1 = document.getElementById("first-service") as HTMLDivElement;
-
-    const service2 = document.getElementById(
-      "second-service"
-    ) as HTMLDivElement;
-
-    const service3 = document.getElementById("third-service") as HTMLDivElement;
-
-    const service4 = document.getElementById(
-      "fourth-service"
-    ) as HTMLDivElement;
-
-    service1.onclick = () => {
-      console.log("im clicked");
-    };
-
     function handleCategoryClick(event: Event) {
       const target = event.currentTarget as HTMLAnchorElement;
       const categoryId = target.getAttribute("data-categoryId");
@@ -116,9 +100,9 @@ export class UserDashboardActions {
     };
 
     logout.onclick = () => {
-      window.location.href = "#/";
+      showToast("logged out successfully", 3000, "green");
       localStorage.clear();
-      showToast("logged out successfully", 2000, "green");
+      window.location.href = "";
     };
 
     async function handleSearch() {

@@ -1,10 +1,17 @@
 import { ServiceToCompany } from "./../../interface/company";
 import { supplierApi } from "../../api/supplier";
 import { Company } from "../../interface/company";
+import { roleAuthApi } from "../../api/me";
+import { showToast } from "../../constants/toastify";
 
 export class SelectedSupplierCompanyActions {
   static selectedSupplierCompany = async () => {
-    console.log("hash", window.location.hash);
+    const role = await roleAuthApi.getMe();
+
+    if (role.role[0] != "user") {
+      showToast("access denied", 2000, "red");
+      window.location.href = "";
+    }
 
     const companyId = window.location.hash.split(":")[1];
 

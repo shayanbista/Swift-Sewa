@@ -60,7 +60,7 @@ export const getAllUsers = async (
   next: NextFunction
 ) => {
   try {
-    const users = await adminService.getUsers();
+    const users = await adminService.getUsers(req.query);
     logger.info("fetched all Users");
     res.json(httpStatusCodes.OK).json(users);
   } catch (err) {

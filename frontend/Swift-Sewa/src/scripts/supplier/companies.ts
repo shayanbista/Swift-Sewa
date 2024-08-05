@@ -1,9 +1,17 @@
+import { roleAuthApi } from "../../api/me";
 import { supplierApi } from "../../api/supplier";
 import { showToast } from "../../constants/toastify";
-import { Company, CompanyApiResponse } from "../../interface/company";
+import { Company } from "../../interface/company";
 
 export class CompaniesActions {
-  static companies: () => void = () => {
+  static companies: () => void = async () => {
+    const role = await roleAuthApi.getMe();
+
+    if (role.role[0] != "supplier") {
+      showToast("access denied", 2000, "red");
+      window.location.href = "";
+    }
+
     let currentPage = 1;
     const limit = 3;
 

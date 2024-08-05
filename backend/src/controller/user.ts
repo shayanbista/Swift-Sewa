@@ -35,7 +35,9 @@ export const getAllUsers = async (
   next: NextFunction
 ) => {
   try {
-    const users = await userService.getAllUsers();
+    const users = await userService.getAllUsers(req.query);
+
+
     res.status(httpStatusCodes.OK).json({ message: users });
   } catch (err) {
     next(err);

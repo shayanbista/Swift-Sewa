@@ -1,9 +1,17 @@
+import { roleAuthApi } from "../../api/me";
 import { serviceApi } from "../../api/services";
 import { showToast } from "../../constants/toastify";
 import { SearchResultItem } from "../../interface/search";
 
 export class UserSearchActions {
   static search = async () => {
+    const role = await roleAuthApi.getMe();
+
+    if (role.role[0] != "user") {
+      showToast("access denied", 2000, "red");
+      window.location.href = "";
+    }
+
     let currentPage = 1;
     const limit = 3;
 
@@ -22,8 +30,6 @@ export class UserSearchActions {
         await renderCategories(getSearchedQuery);
         updatePagination(getSearchedQuery.totalPages);
       } catch (err) {
-        showToast("notfound", 2000, "red");
-
         console.log("err", err);
       }
     };

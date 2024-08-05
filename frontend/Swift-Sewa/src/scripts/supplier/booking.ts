@@ -1,9 +1,17 @@
 import { bookApi } from "../../api/booking";
+import { roleAuthApi } from "../../api/me";
 import { showToast } from "../../constants/toastify";
 import { Booking } from "../../interface/booking";
 
 export class SupplierBookingActions {
   static supplierBooking: () => void = async () => {
+    const role = await roleAuthApi.getMe();
+
+    if (role.role[0] != "supplier") {
+      showToast("access denied", 2000, "red");
+      window.location.href = "";
+    }
+
     let currentPage = 1;
     const limit = 6;
     let currentBookings: Booking[] = [];

@@ -3,7 +3,6 @@ import { Service } from "./../../interface/service";
 
 import { categoryApi } from "../../api/categories";
 import { supplierApi } from "../../api/supplier";
-import { number, string } from "joi";
 import { UpdateFormData } from "../../interface/form";
 
 export class SelectedCompanyActions {

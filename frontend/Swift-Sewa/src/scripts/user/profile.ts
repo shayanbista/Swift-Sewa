@@ -5,9 +5,17 @@ import axios from "axios";
 import { displayResponseErrors } from "../../utils/errorHandler";
 import { userProfile } from "../../interface/userProfile";
 import { roleAuthApi } from "../../api/me";
+import { showToast } from "../../constants/toastify";
 
 export class UserProfileActions {
   static userProfile: () => void = async () => {
+    const role = await roleAuthApi.getMe();
+
+    if (role.role[0] != "user") {
+      showToast("access denied", 2000, "red");
+      window.location.href = "";
+    }
+
     let originalData: userProfile;
     fetchUser();
 

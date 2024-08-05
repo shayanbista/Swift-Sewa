@@ -6,12 +6,28 @@ import { UserProfile } from "../entity/UserProfile";
 import { Role } from "../entity/Role";
 import { BadRequestError } from "../error/BadRequestError";
 import { NotFoundError } from "../error/NotFoundError";
+import { UserQuery } from "../interface/query";
 
 export const userRepository = AppDataSource.getRepository(User);
 export const userProfileRepository = AppDataSource.getRepository(UserProfile);
 
-export const findAll = () => {
-  return userRepository.find({ relations: ["profile"] });
+export const findAll = async (query: UserQuery) => {
+  const { page = 1, limit = 10 } = query;
+  const offset = (page - 1) * limit;
+
+  const [companies, total] = await userRepository.findAndCount({
+    skip: offset,
+    take: limit,
+    relations: ["profile", "bookings", "company"],
+  });
+
+  return {
+    data: companies,
+    totalPages: Math.ceil(total / limit),
+    currentPage: page,
+    pageSize: limit,
+    totalItems: total,
+  };
 };
 
 export const findById = async (id: number) => {
@@ -197,8 +213,9 @@ export const findUserByCompany = async (companyId: number) => {
   return user;
 };
 
-export const getAllUsers = async () => {
-  const users = await findAll();
-  if (!users || users.length == 0) throw new BadRequestError("users not found");
+export const getAllUsers = async (query: UserQuery) => {
+  const users = await findAll(query);
+  if (!users || users.data.length == 0)
+    throw new BadRequestError("users not found");
   return users;
 };

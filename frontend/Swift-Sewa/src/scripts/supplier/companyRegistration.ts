@@ -6,9 +6,17 @@ import axios from "axios";
 import { showToast } from "../../constants/toastify";
 import { Category } from "../../interface/category";
 import { SupplierRegistrationFormData } from "../../interface/form";
+import { roleAuthApi } from "../../api/me";
 
 export class CompanyRegistrationAction {
   static registration: () => void = async () => {
+    const role = await roleAuthApi.getMe();
+
+    if (role.role[0] != "user") {
+      showToast("access denied", 2000, "red");
+      window.location.href = "";
+    }
+
     const submitButton = document.getElementById("submit") as HTMLButtonElement;
     let categoriesArray: Category[] = [];
     async function fetchCategoriesServices() {
