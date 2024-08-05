@@ -24,7 +24,6 @@ export class CategoriesActions {
         };
 
         const response = await categoryApi.getCompanyByCategory(body);
-        console.log("response", response);
 
         await renderCategories(response);
         updatePagination(response.message.totalPages);
@@ -51,10 +50,10 @@ export class CategoriesActions {
             </div>
           </div>
           <div class="px-6 py-2 bg-orange-50">
-            <p class="font-semibold text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out text-indigo-600 mb-4">${item.name}</p>
-            <p class="text-indigo-600 text-sm">${item.description}</p><br>
-            <p class="text-gray-500 text-sm">${item.address}, ${item.location}</p>
-            <p class="text-gray-500 text-sm">${item.phoneNumber}</p>
+            <p class="font-semibold text-lg inline-block  text-orange-950 transition duration-500 ease-in-out  mb-4">${item.name}</p>
+            <p class=" text-orange-800  text-sm">${item.description}</p><br>
+            <p class="text-orange-800 text-sm">${item.address}, ${item.location}</p>
+            <p class="text-orange-800 text-sm">${item.phoneNumber}</p>
           </div>
         `;
 

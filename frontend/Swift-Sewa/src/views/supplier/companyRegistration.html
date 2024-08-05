@@ -1,12 +1,12 @@
 
 <body>
   <section
-    class="signup-section  h-full bg-white md:flex justify-center items-center gap-10"
+    class="signup-section  h-screen bg-orange-100  md:flex justify-center items-center gap-10"
   >
-    <div class="h-[90vh] w-1/2  bg-white shadow-2xl flex flex-col  md:flex-row">
+    <div class="w-1/2 bg-white shadow-2xl flex flex-col md:flex-row  rounded-2xl">
       <div class="md:w-1/2  bg-white rounded-l-2xl ">
         <h1 class="p-8 text-xl font-semibold">Company Registration</h1>
-           <form id="signupform" class="bg-white p-8 rounded-lg shadow-md w-96  h-full flex flex-col gap-4">
+           <form id="signupform" class="bg-white p-8 rounded-lg w-96  h-2/3 flex flex-col gap-4 ora">
               <div class="form-group mb-4">
                <label for="name" class="block text-sm font-medium text-gray-700"
                 >Name:</label
@@ -15,7 +15,7 @@
                 type="text"
                 id="name"
                 name="name"
-                class="mt-1 block w-full border border-gray-300  rounded-md shadow-sm"
+                class="mt-1 block w-full border border-gray-300  rounded-md shadow-sm" required
                 />
             </div>
             <div class="form-group mb-4">
@@ -26,7 +26,7 @@
                type="text"
                id="address"
                name="address"
-               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required
               />
             </div>
 
@@ -40,7 +40,7 @@
                 type="text"
                 id="phoneNumber"
                 name="phoneNumber"
-               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm"
+               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required
               />
             </div>
            
@@ -60,7 +60,7 @@
               type="time"
                id="openingTime"
                 name="openingTime"
-                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required
           />
          </div>
 
@@ -73,7 +73,7 @@
               type="time"
               id="closingTime"
               name="openingTime"
-              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+              class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required
             />
           </div>
 
@@ -119,8 +119,8 @@
       </div>
 
        <div class="form-group mb-4">
-        <label class="block text-sm font-medium   text-gray-700">Description:</label>
-          <textarea name="companyDescription" class="border border-gray-200 w-full my-4 py-8" id="company-description"></textarea>
+        <label class="block text-sm font-medium text-gray-700">Description:</label>
+          <textarea name="companyDescription" class="border border-gray-200 w-full my-4 py-8" id="company-description" required></textarea>
         </div>
           <button id="submit" class="border border-black w-[5rem] mx-auto hover:ring-1 ring-blue-600"> Submit</button>
           <div id="error-container" class="text-red-600"></div>

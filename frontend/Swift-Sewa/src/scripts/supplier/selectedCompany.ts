@@ -1,12 +1,23 @@
 import { Company, ServiceToCompany } from "./../../interface/company";
-import { Service } from "./../../interface/service";
 
+import { Service } from "./../../interface/service";
 import { categoryApi } from "../../api/categories";
 import { supplierApi } from "../../api/supplier";
 import { UpdateFormData } from "../../interface/form";
+import { roleAuthApi } from "../../api/me";
+import { showToast } from "../../constants/toastify";
+import { convertTime } from "../../utils/timeConvention";
+import axios, { Axios } from "axios";
 
 export class SelectedCompanyActions {
   static selected: () => void = async () => {
+    const role = await roleAuthApi.getMe();
+
+    if (role.role[0] != "supplier") {
+      showToast("access denied", 2000, "red");
+      window.location.href = "";
+    }
+
     const updateButton = document.getElementById(
       "update-button"
     ) as HTMLButtonElement;
@@ -19,8 +30,6 @@ export class SelectedCompanyActions {
     const addServiceButton = document.getElementById(
       "add-service-button"
     ) as HTMLButtonElement;
-
-    const categoryName = document.getElementsByClassName("");
 
     const servicesOfCategory: Service[] = [];
 
@@ -60,32 +69,36 @@ export class SelectedCompanyActions {
       const servicesList = document.querySelector(
         ".services-list"
       ) as HTMLUListElement;
+
       if (servicesList) {
         const services = servicesList.querySelectorAll("li");
         services.forEach((service) => {
-          const binIcon = document.createElement("span");
-          binIcon.classList.add("bin-icon", "cursor-pointer");
-          binIcon.innerHTML = "&#128465;";
+          if (!service.querySelector(".bin-icon")) {
+            const binIcon = document.createElement("span");
+            binIcon.classList.add("bin-icon", "cursor-pointer");
+            binIcon.innerHTML = "&#128465;";
 
-          binIcon.addEventListener("click", async () => {
-            const serviceId = service.getAttribute("data-id");
-            const companyId = localStorage.getItem("companyId");
+            binIcon.addEventListener("click", async () => {
+              const serviceId = service.getAttribute("data-id");
+              const companyId = localStorage.getItem("companyId");
 
-            try {
-              const deletedService = await supplierApi.deleteCompanyService({
-                companyId,
-                serviceId,
-              });
-              updateButton.disabled = false;
-              saveButton.classList.add("hidden");
-              updateButton.classList.add("block");
-              window.location.reload();
-            } catch (err) {
-              console.log("err", err);
-            }
-          });
+              try {
+                const deletedService = await supplierApi.deleteCompanyService({
+                  companyId,
+                  serviceId,
+                });
 
-          service.appendChild(binIcon);
+                updateButton.disabled = false;
+                saveButton.classList.add("hidden");
+                updateButton.classList.add("block");
+                window.location.reload();
+              } catch (err) {
+                console.log("err", err);
+              }
+            });
+
+            service.appendChild(binIcon);
+          }
         });
       } else {
         console.error("Services list not found");
@@ -100,7 +113,7 @@ export class SelectedCompanyActions {
       ) as HTMLUListElement;
       servicesList.innerHTML = "";
 
-      services.forEach((serviceToCompany: ServiceToCompany, index: number) => {
+      services.forEach((serviceToCompany: ServiceToCompany) => {
         const listItem = document.createElement("li");
         listItem.classList.add(
           "service-item",
@@ -124,9 +137,9 @@ export class SelectedCompanyActions {
         serviceName.classList.add("service-name", "font-bold");
         serviceName.textContent = serviceToCompany.service.name;
         const servicePrice = document.createElement("span");
-        servicePrice.classList.add("service-price", "text-sm");
 
-        servicePrice.textContent = `${serviceToCompany.price}/hr`;
+        servicePrice.classList.add("service-price", "text-sm");
+        servicePrice.textContent = `${serviceToCompany.price}`;
 
         serviceHeader.appendChild(serviceName);
         serviceHeader.appendChild(servicePrice);
@@ -159,7 +172,6 @@ export class SelectedCompanyActions {
 
     function addNewService() {
       if (!canAddMoreServices()) {
-        alert("You've reached the maximum number of services allowed.");
         return;
       }
       const servicesList = document.querySelector(
@@ -169,7 +181,7 @@ export class SelectedCompanyActions {
         servicesList.querySelectorAll(".service-name")
       ).map((nameElement) => (nameElement as HTMLElement).textContent);
 
-      let newServiceData = servicesOfCategory.find(
+      const newServiceData = servicesOfCategory.find(
         (service) => !existingServices.includes(service.name)
       );
 
@@ -260,13 +272,39 @@ export class SelectedCompanyActions {
 
           if (field === "openingTime" || field === "closingTime") {
             inputElement = document.createElement("input") as HTMLInputElement;
+            inputElement.required = true;
+            inputElement.classList.add("required");
             inputElement.type = "time";
-            inputElement.value =
-              spanElement.textContent || spanElement.dataset.oldValue || "";
+
+            let timeValue = spanElement.textContent || "";
+            if (timeValue) {
+              const timeParts = timeValue.match(/(\d+):(\d+)\s*(AM|PM)?/i);
+              if (timeParts) {
+                let hours = parseInt(timeParts[1]);
+                const minutes = timeParts[2];
+                const ampm = timeParts[3];
+
+                if (ampm && ampm.toUpperCase() === "PM" && hours < 12) {
+                  hours += 12;
+                } else if (
+                  ampm &&
+                  ampm.toUpperCase() === "AM" &&
+                  hours === 12
+                ) {
+                  hours = 0;
+                }
+
+                timeValue = `${hours.toString().padStart(2, "0")}:${minutes}`;
+              }
+            }
+
+            inputElement.value = timeValue;
+            console.log("Time input value:", inputElement.value);
           } else if (field === "location") {
             inputElement = document.createElement(
               "select"
             ) as HTMLSelectElement;
+            inputElement.required = true;
             const kathmanduOption = document.createElement(
               "option"
             ) as HTMLOptionElement;
@@ -282,7 +320,7 @@ export class SelectedCompanyActions {
             const lalitpurOption = document.createElement(
               "option"
             ) as HTMLOptionElement;
-            lalitpurOption.value = "Lalipur";
+            lalitpurOption.value = "Lalitpur";
             lalitpurOption.text = "Lalitpur";
 
             inputElement.add(kathmanduOption);
@@ -292,7 +330,7 @@ export class SelectedCompanyActions {
             const defaultValue =
               spanElement.textContent ||
               spanElement.dataset.oldValue ||
-              "kathmandu";
+              "Kathmandu";
             inputElement.value = defaultValue;
 
             inputElement.addEventListener("change", (event) => {
@@ -302,6 +340,7 @@ export class SelectedCompanyActions {
             inputElement = document.createElement(
               "select"
             ) as HTMLSelectElement;
+            inputElement.required = true;
             const activeOption = document.createElement(
               "option"
             ) as HTMLOptionElement;
@@ -355,7 +394,6 @@ export class SelectedCompanyActions {
         }
       });
 
-      // Update service price and description
       const serviceItems = document.querySelectorAll(".service-item");
       serviceItems.forEach((serviceItem) => {
         const priceElement = serviceItem.querySelector(
@@ -369,9 +407,9 @@ export class SelectedCompanyActions {
           const priceInput = document.createElement(
             "input"
           ) as HTMLInputElement;
-          priceInput.type = "string";
-          console.log("priceElement", priceElement.textContent);
-
+          priceInput.type = "number";
+          priceInput.min = "0";
+          priceInput.step = "0.01";
           priceInput.value = priceElement.textContent || "";
           console.log("priceValue", priceInput.value);
 
@@ -467,16 +505,15 @@ export class SelectedCompanyActions {
               break;
             case "address":
               updatedData.address = inputElement.value;
-
               break;
             case "openingTime":
-              updatedData.openingTime = inputElement.value;
+              updatedData.openingTime = convertTime(inputElement.value);
               break;
             case "location":
               updatedData.location = inputElement.value;
               break;
             case "closingTime":
-              updatedData.closingTime = inputElement.value;
+              updatedData.closingTime = convertTime(inputElement.value);
               break;
             case "status":
               updatedData.isActive = inputElement.value === "active";
@@ -503,9 +540,26 @@ export class SelectedCompanyActions {
       });
 
       try {
+        console.log("updatedData", updatedData);
+
+        console.log("updateddata", updatedData);
+
         const updatedProfile = await supplierApi.put(updatedData);
+
+        showToast("updateSuccess", 3000, "green");
+        setTimeout(() => {
+          window.location.href = "#/supplier/dashboard/";
+        }, 2000);
       } catch (err) {
-        console.log("err", err);
+        if (axios.isAxiosError(err)) {
+          showToast(
+            err.response?.data?.message || "something went wrong",
+            3000,
+            "red"
+          );
+        } else {
+          console.log("Error:", err);
+        }
       }
     }
 
@@ -527,8 +581,6 @@ export class SelectedCompanyActions {
       const image = document.getElementById(
         "company-image"
       ) as HTMLImageElement;
-
-      console.log("Data", data.companies.photo);
 
       image.src = data.companies.photo;
 
@@ -560,7 +612,6 @@ export class SelectedCompanyActions {
       const categoryName = document.getElementById(
         "category-name"
       ) as HTMLSpanElement;
-
       const categoryDescription = document.getElementById(
         "category-description"
       ) as HTMLSpanElement;

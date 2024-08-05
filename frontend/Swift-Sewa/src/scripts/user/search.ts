@@ -48,17 +48,17 @@ export class UserSearchActions {
           <div class="relative">
             <a href="javascript:void(0)" class="company-image">
               <img class="w-full h-[30vh] object-cover" src="${company.photo}" alt="" />
-              <div class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-45"></div>
+                <div class="hover:bg-gray-700 transition duration-300 absolute bottom-0 top-0 right-0 left-0 opacity-30"></div>
             </a>
             <div class="absolute bottom-0 left-0 bg-indigo-600 px-4 py-2 text-white text-sm hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out">
               ${company.location}
             </div>
           </div>
-          <div class="px-6 py-2">
-            <p class="font-semibold text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out text-indigo-600 mb-4">${company.name}</p>
-            <p class="text-indigo-600 text-sm">${item.description}</p><br>
-            <p class="text-gray-500 text-sm">${company.address}, ${company.location}</p>
-            <p class="text-gray-500 text-sm">${company.phoneNumber}</p>
+          <div class="px-6 py-2 bg-orange-50">
+            <p class="font-semibold text-lg inline-block  text-orange-950 mb-4">${company.name}</p>
+            <p class="text-orange-800 text-sm">${item.description}</p><br>
+            <p class="text-orange-800 text-sm">${company.address}, ${company.location}</p>
+            <p class="text-orange-800text-sm">${company.phoneNumber}</p>
           </div>
         `;
 

@@ -7,12 +7,13 @@ import { showToast } from "../../constants/toastify";
 import { Category } from "../../interface/category";
 import { SupplierRegistrationFormData } from "../../interface/form";
 import { roleAuthApi } from "../../api/me";
+import { convertTime } from "../../utils/timeConvention";
 
 export class CompanyRegistrationAction {
   static registration: () => void = async () => {
     const role = await roleAuthApi.getMe();
 
-    if (role.role[0] != "user") {
+    if (role.role[0] != "supplier") {
       showToast("access denied", 2000, "red");
       window.location.href = "";
     }
@@ -42,23 +43,6 @@ export class CompanyRegistrationAction {
       }
     }
 
-    function convertTime(time: string): string {
-      let [hours, minutes] = time.split(":");
-      let period = "AM";
-
-      let hourTime: number = parseInt(hours);
-
-      if (hourTime >= 12) {
-        period = "PM";
-        if (hourTime > 12) {
-          hourTime -= 12;
-        }
-      } else if (hourTime === 0) {
-        hourTime = 12;
-      }
-
-      return `${hourTime}:${minutes} ${period}`;
-    }
 
     function logSelectedCategory() {
       const categorySelect = document.getElementById(
@@ -217,6 +201,7 @@ export class CompanyRegistrationAction {
           3000,
           "green"
         );
+        window.location.href = "#/supplier/dashboard/";
       } catch (err) {
         if (axios.isAxiosError(err)) {
           const errorMessage = err.response?.data?.message || err.message;

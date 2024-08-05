@@ -5,7 +5,7 @@ export class SupplierDashboardActions {
   static supplierDashboard: () => void = async () => {
     const role = await roleAuthApi.getMe();
 
-    if (role.role[0] != "user") {
+    if (role.role[0] != "supplier") {
       showToast("access denied", 2000, "red");
       window.location.href = "";
     }
