@@ -31,6 +31,7 @@ export const findByService = async (query: ServiceCompanyQuery) => {
       company: {
         location: queryLocation,
         isPending: false,
+        isActive: true,
       },
     },
     relations: ["company"],

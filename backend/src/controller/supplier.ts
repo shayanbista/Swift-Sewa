@@ -16,10 +16,6 @@ export const registerCompany = async (
 
   console.log("req.body", req.body);
 
-  const serviceIds = JSON.parse(req.body.serviceIds);
-  const servicePrices = JSON.parse(req.body.price);
-  req.body.price = servicePrices;
-  req.body.serviceIds = serviceIds;
   req.body.userId = id;
 
   try {
@@ -81,6 +77,8 @@ export const updateCompany = async (
   const userId = req.user?.id!;
   const { id } = req.params;
   const data = req.body;
+
+  console.log("data", data);
 
   const imageFiles = req.files as { [key: string]: Express.Multer.File[] };
 

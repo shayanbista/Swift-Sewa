@@ -46,19 +46,6 @@ const create = async (data: booking) => {
   return booking;
 };
 
-// const findBookings = async (companyIds: number[]) => {
-//   const bookings = await bookRepository.find({
-//     where: {
-//       company: {
-//         id: In(companyIds),
-//       },
-//       isApproved: false,
-//     },
-//     relations: ["company", "serviceToCompany.service"],
-//   });
-//   return bookings;
-// };
-
 export const findBookings = async (
   companyIds: number[],
   query: SupplierCompanyQuery

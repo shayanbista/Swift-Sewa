@@ -191,6 +191,8 @@ const findByCategory = async (id: number, query: CategoryCompanyQuery) => {
         id,
       },
       location: query.location,
+      isActive: true,
+      isPending: false,
     },
     skip: (query.page! - 1) * query.limit!,
     take: query.limit!,
@@ -296,6 +298,7 @@ export const getCompany = async (id: number, userId: number) => {
   return company;
 };
 
+
 export const updateCompany = async (
   id: number,
   data: Partial<companyData>,
@@ -303,7 +306,7 @@ export const updateCompany = async (
   userId: string
 ) => {
   const company = await findByCompanyId(id, Number(userId));
-  if (!company) throw new BadRequestError("company to update not found");
+  if (!company) throw new BadRequestError("Company to update not found");
 
   const newImage =
     imageFiles !== undefined
@@ -311,14 +314,24 @@ export const updateCompany = async (
       : { imageUrl: company.photo };
 
   const companyServices = await services.getServicesByIds(data.serviceIds!);
-  if (!companyServices) throw new BadRequestError("services not found");
+  if (!companyServices) throw new BadRequestError("Services not found");
+
+  let nameChanged = false;
 
   if (data.name && data.name !== company.name) {
-    const existingCompany = await findByName(data.name);
-    if (existingCompany) throw new BadRequestError("Company already exists");
+    nameChanged = true;
+  }
+
+  if (nameChanged) {
+    const existingCompany = await findByName(company.name);
+    if (existingCompany && existingCompany.id !== company.id) {
+      throw new BadRequestError("Company already exists");
+    }
   }
 
   const updatedCompany = await update(company, data, newImage);
+
+  return updatedCompany;
 };
 
 export const deleteCompany = async (id: number, userId: number) => {

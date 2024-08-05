@@ -14,11 +14,8 @@ import {
   getSuppliersCompanies,
   registerCompany,
 } from "../controller/supplier";
-import {
-  companyBodySchema,
-  companyIdSchema,
-  companyupdateSchema,
-} from "../schema/supplier";
+import { companyBodySchema, companyIdSchema } from "../schema/supplier";
+import { companyUpdateSchema } from "../schema/supplier";
 import { updateCompany } from "../controller/supplier";
 
 const supplierRouter = Router();
@@ -39,10 +36,9 @@ supplierRouter.put(
   "/:id",
   authenticate,
   authorize("company.put"),
-
   validateReqParams(companyIdSchema),
   uploader.fields([{ name: "photo", maxCount: 1 }]),
-  validateReqBody(companyupdateSchema),
+  validateReqBody(companyUpdateSchema),
   updateCompany
 );
 

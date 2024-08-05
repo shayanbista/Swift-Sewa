@@ -16,8 +16,7 @@ import { UserProfile } from "./UserProfile";
 import { Role } from "./Role";
 import { Company } from "./Company";
 import { Booking } from "./Booking";
-// import COn
-// import { Company } from "./Company";
+
 
 @Entity({ name: "users" })
 export class User {

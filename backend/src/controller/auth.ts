@@ -1,4 +1,3 @@
-import { User } from "./../interface/user";
 import httpStatusCodes from "http-status-codes";
 import { NextFunction } from "express";
 import * as authService from "../service/auth";

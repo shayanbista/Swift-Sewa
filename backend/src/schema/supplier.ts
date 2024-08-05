@@ -1,5 +1,23 @@
 import Joi from "joi";
 
+const jsonArrayStringValidator = (value: any, helpers: any) => {
+  try {
+    const parsedValue = JSON.parse(value);
+    if (
+      Array.isArray(parsedValue) &&
+      parsedValue.length > 0 &&
+      parsedValue.every(
+        (item) => typeof item === "string" && item.trim() !== ""
+      )
+    ) {
+      return parsedValue;
+    } else {
+      return helpers.error("any.invalid");
+    }
+  } catch (err) {
+    return helpers.error("any.invalid");
+  }
+};
 
 export const companyBodySchema = Joi.object({
   name: Joi.string().required().messages({
@@ -21,36 +39,29 @@ export const companyBodySchema = Joi.object({
   categoryId: Joi.string().required().messages({
     "any.required": "Please select a category",
   }),
-  price: Joi.alternatives()
-    .try(Joi.array().items(Joi.string()).required(), Joi.string().required())
-    .messages({
-      "alternatives.match":
-        "Please provide the price for each selected service.",
-      "array.base": "Price must be an array of strings.",
-      "string.base": "Price must be a string.",
-    }),
   openingTime: Joi.string().required().messages({
     "any.required": "Opening time is required",
   }),
   closingTime: Joi.string().required().messages({
     "any.required": "Closing time is required",
   }),
-  companyDescription: Joi.string().optional().messages({
-    "any.required": "Description is required",
-  }),
-  serviceIds: Joi.alternatives()
-    .try(Joi.array().items(Joi.string()).required(), Joi.string().required())
+  companyDescription: Joi.string().optional(),
+  serviceIds: Joi.string()
+    .custom(jsonArrayStringValidator)
+    .required()
     .messages({
-      "alternatives.match":
-        "Please provide the service IDs as an array of strings or a string.",
-      "array.base": "Service IDs must be an array of strings.",
-      "string.base": "Service IDs must be a string.",
+      "any.invalid": "Please select atleast one service",
+      "any.required": "Service IDs are required.",
     }),
+  price: Joi.string().custom(jsonArrayStringValidator).required().messages({
+    "any.invalid": "Please provide a price for each selected service.",
+    "any.required": "Prices are required.",
+  }),
 }).options({
   stripUnknown: true,
 });
 
-export const companyupdateSchema = Joi.object({
+export const companyUpdateSchema = Joi.object({
   name: Joi.string().required().messages({
     "any.required": "Name is required",
   }),
@@ -65,7 +76,7 @@ export const companyupdateSchema = Joi.object({
   }),
 
   serviceIds: Joi.array().items(Joi.string().required()).required().messages({
-    "array.includesRequiredUnknowns": "Each service ID is required.",
+    "array.includesRequiredUnknowns": "Services cant be empty.",
   }),
 
   price: Joi.array().items(Joi.string().required()).required().messages({
@@ -83,7 +94,7 @@ export const companyupdateSchema = Joi.object({
   }),
 
   isActive: Joi.boolean().optional().messages({
-    "any.optional": "status is required",
+    "any.optional": "Status is optional",
   }),
   description: Joi.array().items(Joi.string().optional()).optional().messages({
     "array.items": "Description is optional",
