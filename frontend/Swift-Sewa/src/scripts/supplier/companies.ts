@@ -24,7 +24,6 @@ export class CompaniesActions {
         };
         const response = await supplierApi.getAll(data);
 
-        // Access the nested properties
         const {
           totalPages,
           currentPage: currentPageFromResponse,
@@ -151,14 +150,13 @@ const renderContent = async (companies: Company[]) => {
             class="hover:bg-transparent transition duration-300 absolute bottom-0 top-0 right-0 left-0 bg-gray-900 opacity-25"
           ></div>
         </a>
-        <a href="#!">
+       
           <div
             class="absolute bottom-0 left-0 bg-indigo-600 px-4 py-2 text-white text-sm hover:bg-white hover:text-indigo-600 transition duration-500 ease-in-out"
           >
             ${item.location}
-          </div>
-        </a>
-        <a href="!#">
+          </div>  
+      
           <div
             class="text-sm absolute top-0 right-0 ${
               item.isActive ? "bg-green-600" : "bg-red-600"
@@ -170,13 +168,12 @@ const renderContent = async (companies: Company[]) => {
               item.isActive ? "active" : "inactive"
             }</span>
           </div>
-        </a>
+       
       </div>
-      <div class="px-6 py-4">
-        <a
-          href="#"
+      <div class="px-6 py-4 bg-orange-50 h-full">
+        <p
           class="font-semibold text-lg inline-block hover:text-indigo-600 transition duration-500 ease-in-out mb-4"
-        >${item.name}</a>
+        >${item.name}</p>
         <p class="text-gray-500 text-sm">${item.description}</p> </br>
         <p class="text-gray-500 text-sm">${item.location}</p>
         <h1> ${item.isActive ? "active" : "inactive"}</h1>

@@ -19,7 +19,7 @@ export class CompanyVerification {
         const response = await adminApi.verifyCompany(Number(id), true);
         if (response === 200) {
           showToast(" Successful", 3000, "green");
-          window.location.href = "#/admin/dashboard/";
+          window.location.href = "#/admin/companies/pending/";
         } else {
           showToast("Company verification failed", 3000, "red");
         }

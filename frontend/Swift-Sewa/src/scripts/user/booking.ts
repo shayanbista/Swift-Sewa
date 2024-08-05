@@ -46,14 +46,17 @@ export class UserBookingActions {
         companyServiceId: companyServiceId,
       };
 
-      console.log("Data", data);
-
       try {
         const userBooking = await bookApi.post(data);
-        showToast(
-          "booking successful please wait until the company contacts you",
-          3000,
-          "greed"
+
+        setTimeout(
+          () =>
+            showToast(
+              "booking successful please wait until the company contacts you",
+              3000,
+              "greed"
+            ),
+          500
         );
       } catch (err) {
         showToast("somethingwent wrong try again later", 3000, "red");

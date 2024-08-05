@@ -159,7 +159,6 @@ export class AdminDashboardUsers {
             if (userId) {
               const deletedStatus = await adminApi.deleteUser(Number(userId));
               if (deletedStatus === 204) {
-                showToast("User deleted successfully", 3000, "green");
                 removeTableRow(userId);
               } else {
                 showToast("User deletion failed", 3000, "red");
